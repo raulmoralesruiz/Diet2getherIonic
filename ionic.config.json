@@ -1,0 +1,7 @@
+{
+  "name": "Diet2getherIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
