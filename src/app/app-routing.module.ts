@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'athlete',
     loadChildren: () => import('./pages/entry/athlete-data-register/athlete-data-register.module').then( m => m.AthleteDataRegisterPageModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'regime',
+    loadChildren: () => import('./pages/regime/regime/regime.module').then( m => m.RegimePageModule)
+  },
 ];
 
 @NgModule({

@@ -12,6 +12,10 @@
 
 <ion-content class="ion-padding">
 
+  <ion-text color="primary" class="ion-text-center">
+    <h1>Finalizar registro</h1>
+  </ion-text>
+
   <div id="divEntryForm">
 
     <form [formGroup]="athleteForm" action="">
@@ -40,74 +44,36 @@
         </div>
       </ion-list>
 
-      <ion-list>
-        <ion-item>
-          <ion-label position="fixed">Fecha nac.</ion-label>
-          <ion-input type="date" formControlName="birthDay" name="birthDay"
-          placeholder="Introduce apellidos" required id="inpbirthDay"
-          [class.is-invalid]="athleteForm.get('birthDay').touched && athleteForm.get('birthDay').invalid"></ion-input>
-        </ion-item>
-        <div [hidden]="athleteForm.get('birthDay').pristine || athleteForm.get('birthDay').valid" class="ion-padding ion-text-center">
-          El valor de la fecha de no es válido
-        </div>
-      </ion-list>
-
+      <ion-item>
+        <ion-label position="fixed">Fecha nac.</ion-label>
+        <ion-datetime display-format="DD/MM/YYYY" min="1940-01-01"
+          max="2021-12-31" formControlName="birthDay" name="birthDay" required id="inpbirthDay"
+          placeholder="Introduce fecha" [pickerOptions]="datePickerOptions"></ion-datetime>
+      </ion-item>
 
       <ion-list>
         <ion-item>
-          <ion-label position="fixed">Peso (kg)</ion-label>
-          <ion-input type="tel" formControlName="weightKilograms" name="weightKilograms"
-          placeholder="Introduce kilos" required id="inpweightKilograms"
-          [class.is-invalid]="athleteForm.get('weightKilograms').touched && athleteForm.get('weightKilograms').invalid"></ion-input>
+          <ion-label position="fixed">Peso</ion-label>
+          <ion-input *ngIf="weight == -1" type="text" (click)="pickerPeso()" placeholder="Introducir peso"></ion-input>
+          <ion-input *ngIf="weight != -1" type="text" (click)="pickerPeso()" [value]="weight"></ion-input>
+          <!-- <ion-button (click)="pickerPeso()" fill="clear" color="gray">Introducir[ peso]</ion-button> -->
         </ion-item>
-        <div [hidden]="athleteForm.get('weightKilograms').pristine || athleteForm.get('weightKilograms').valid" class="ion-padding ion-text-center">
-          El valor de los kilos (kg) no es válido
-        </div>
       </ion-list>
 
       <ion-list>
         <ion-item>
-          <ion-label position="fixed">Peso (g)</ion-label>
-          <ion-input type="tel" formControlName="weightGrams" name="weightGrams"
-          placeholder="Introduce gramos" required id="inpweightGrams"
-          [class.is-invalid]="athleteForm.get('weightGrams').touched && athleteForm.get('weightGrams').invalid"></ion-input>
+          <ion-label position="fixed">Altura</ion-label>
+          <ion-input *ngIf="height == -1" type="text" (click)="pickerAltura()" placeholder="Introducir peso"></ion-input>
+          <ion-input *ngIf="height != -1" type="text" (click)="pickerAltura()" [value]="height"></ion-input>
+          <!-- <ion-button (click)="pickerAltura()" fill="clear" color="gray">Introducir altura</ion-button> -->
         </ion-item>
-        <div [hidden]="athleteForm.get('weightGrams').pristine || athleteForm.get('weightGrams').valid" class="ion-padding ion-text-center">
-          El valor de los gramos (g) no es válido
-        </div>
       </ion-list>
-
-
-      <ion-list>
-        <ion-item>
-          <ion-label position="fixed">Altura (m)</ion-label>
-          <ion-input type="tel" formControlName="heightMeters" name="heightMeters"
-          placeholder="Introduce metros" required id="inpheightMeters"
-          [class.is-invalid]="athleteForm.get('heightMeters').touched && athleteForm.get('heightMeters').invalid"></ion-input>
-        </ion-item>
-        <div [hidden]="athleteForm.get('heightMeters').pristine || athleteForm.get('heightMeters').valid" class="ion-padding ion-text-center">
-          El valor de los metros (m) no es válido
-        </div>
-      </ion-list>
-
-      <ion-list>
-        <ion-item>
-          <ion-label position="fixed">Altura (cm)</ion-label>
-          <ion-input type="tel" formControlName="heightCentimeters" name="heightCentimeters"
-          placeholder="Introduce centímetros" required id="inpheightCentimeters"
-          [class.is-invalid]="athleteForm.get('heightCentimeters').touched && athleteForm.get('heightCentimeters').invalid"></ion-input>
-        </ion-item>
-        <div [hidden]="athleteForm.get('heightCentimeters').pristine || athleteForm.get('heightCentimeters').valid" class="ion-padding ion-text-center">
-          El valor de los centímetros (cm) no es válido
-        </div>
-      </ion-list>
-
 
       <ion-grid>
         <ion-row class="ion-justify-content-center">
           <ion-col size="12" class="ion-text-center ion-margin-top ion-padding-top">
-            <ion-button type="submit" color="primary" expand="block" [disabled]="!athleteForm.valid"
-            (click)="sendAthleteData()">
+            <ion-button type="submit" color="primary" expand="block" 
+            [disabled]="!athleteForm.valid || validWeightAndHeight == false" (click)="sendAthleteData()">
               Enviar
             </ion-button>
           </ion-col>
