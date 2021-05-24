@@ -46,9 +46,9 @@
 
       <ion-item>
         <ion-label position="fixed">Fecha nac.</ion-label>
-        <ion-datetime display-format="DD/MM/YYYY" min="1940-01-01"
-          max="2021-12-31" formControlName="birthDay" name="birthDay" required id="inpbirthDay"
-          placeholder="Introduce fecha" [pickerOptions]="datePickerOptions"></ion-datetime>
+        <ion-datetime display-format="DD/MM/YYYY" min="1940-01-01" max="2021-12-31" formControlName="birthDay"
+          name="birthDay" required id="inpbirthDay" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
+        </ion-datetime>
       </ion-item>
 
       <ion-list>
@@ -56,7 +56,6 @@
           <ion-label position="fixed">Peso</ion-label>
           <ion-input *ngIf="weight == -1" type="text" (click)="pickerPeso()" placeholder="Introducir peso"></ion-input>
           <ion-input *ngIf="weight != -1" type="text" (click)="pickerPeso()" [value]="weight"></ion-input>
-          <!-- <ion-button (click)="pickerPeso()" fill="clear" color="gray">Introducir[ peso]</ion-button> -->
         </ion-item>
       </ion-list>
 
@@ -65,7 +64,6 @@
           <ion-label position="fixed">Altura</ion-label>
           <ion-input *ngIf="height == -1" type="text" (click)="pickerAltura()" placeholder="Introducir peso"></ion-input>
           <ion-input *ngIf="height != -1" type="text" (click)="pickerAltura()" [value]="height"></ion-input>
-          <!-- <ion-button (click)="pickerAltura()" fill="clear" color="gray">Introducir altura</ion-button> -->
         </ion-item>
       </ion-list>
 

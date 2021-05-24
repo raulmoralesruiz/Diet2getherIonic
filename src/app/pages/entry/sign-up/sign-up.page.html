@@ -28,9 +28,7 @@
         <div [hidden]="user.valid || user.pristine" class="ion-padding ion-text-center">
           El usuario es obligatorio
         </div>
-      </ion-list>
-
-
+      
       <ion-item>
         <ion-label position="fixed">Contraseña</ion-label>
         <ion-input [ngClass]="{'is-invalid': pass.invalid && pass.dirty}" #pass="ngModel" [(ngModel)]="singUpClass.pass"
@@ -44,7 +42,6 @@
         La contraseña es obligatoria
       </div>
 
-
       <ion-item>
         <ion-label position="fixed">Confirmar</ion-label>
         <ion-input [ngClass]="{'is-invalid': passAgain.invalid && passAgain.dirty}" #passAgain="ngModel" [(ngModel)]="singUpClass.passAgain"
@@ -57,6 +54,7 @@
       <div [hidden]="singUpClass.passAgain == singUpClass.pass" class="ion-padding ion-text-center">
         Las contraseñas no coinciden
       </div>
+    </ion-list>
 
 
       <ion-grid>
