@@ -1,6 +1,6 @@
 <ion-app>
 
-  <ion-header>
+  <ion-header class="ion-no-border">
     <ion-toolbar>
 
       <ion-buttons slot="start">
@@ -19,7 +19,7 @@
   
 
   <ion-menu side="start" menuId="first" contentId="main">
-    <ion-header>
+    <ion-header class="">
       <ion-toolbar color="primary">
         <ion-menu-toggle>
           <ion-title *ngIf="online == true" [routerLink]="['/home']">Diet2gether</ion-title>
@@ -40,7 +40,7 @@
           <ion-item *ngIf="online == true">
             <ion-icon name="person-circle-outline" color="primary"></ion-icon>Mi perfil
           </ion-item>
-          <ion-item *ngIf="online == true">
+          <ion-item *ngIf="online == true" [routerLink]="['/social']">
             <ion-icon name="people-outline" color="primary"></ion-icon>Social
           </ion-item>
           <ion-item *ngIf="online == true">

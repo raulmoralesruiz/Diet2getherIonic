@@ -34,6 +34,15 @@ const routes: Routes = [
     path: 'regime',
     loadChildren: () => import('./pages/regime/regime/regime.module').then( m => m.RegimePageModule)
   },
+  {
+    // path: 'friends',
+    path: 'social',
+    loadChildren: () => import('./pages/social/friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  // {
+  //   path: 'add-friend',
+  //   loadChildren: () => import('./pages/social/add-friend/add-friend.module').then( m => m.AddFriendPageModule)
+  // },
 ];
 
 @NgModule({

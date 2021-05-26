@@ -92,7 +92,7 @@ export class AthleteDataRegisterPage implements OnInit {
     /* Mínimo y máximo de kilos/gramos disponibles */
     const minKilos = 1;
     const maxKilos = 300;
-    const minGramos = 5;
+    const minGramos = 0;
     const maxGramos = 95;
 
     /* Se rellena el array de kilos */
@@ -250,52 +250,6 @@ export class AthleteDataRegisterPage implements OnInit {
   joinWeight(kilos:number, grams:number) {
     this.weight = parseFloat(kilos + '.' + grams);
   }
-
-  // async mostrarPickerBasico() {
-  //   /* Array de kilos */
-  //   let kilos = [];
-
-  //   /* Mínimo y máximo de kilos disponibles */
-  //   const minKilos = 1;
-  //   const maxKilos = 150
-
-  //   /* Se rellena el array de kilos */
-  //   for (let i = minKilos; i <= maxKilos; i++) {
-  //     let element = {
-  //       text: `${i} kg`,
-  //       value: i,
-  //     };
-
-  //     kilos.push(element);
-  //   }
-
-  //   /* Controlador del picker para los kilos */
-  //   const picker = await this.pickerController.create({
-  //     columns: [
-  //       {
-  //         name: 'Kilos',
-  //         options: kilos
-  //       },
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancelar',
-  //         role: 'cancel',
-  //         handler: (value) => {
-  //           console.log('Cancelar', value);
-  //         },
-  //       },
-  //       {
-  //         text: 'Confirmar',
-  //         handler: (value) => {
-  //           console.log('Confirmar', value);
-  //         },
-  //       },
-  //     ],
-  //   });
-
-  //   await picker.present();
-  // }
 }
 
 
