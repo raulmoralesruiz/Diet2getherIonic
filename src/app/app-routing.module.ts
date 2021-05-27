@@ -39,10 +39,10 @@ const routes: Routes = [
     path: 'social',
     loadChildren: () => import('./pages/social/friends/friends.module').then( m => m.FriendsPageModule)
   },
-  // {
-  //   path: 'add-friend',
-  //   loadChildren: () => import('./pages/social/add-friend/add-friend.module').then( m => m.AddFriendPageModule)
-  // },
+  {
+    path:'private',
+    loadChildren: () => import("./pages/private-activity/private.module").then(m => m.PrivateModule)
+  },
 ];
 
 @NgModule({
