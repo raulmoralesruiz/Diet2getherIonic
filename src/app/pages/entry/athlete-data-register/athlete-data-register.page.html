@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Finalizar registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-text color="primary" class="ion-text-center">
+    <h1>Finalizar registro</h1>
+  </ion-text>
+
+  <div id="divEntryForm">
+
+    <form [formGroup]="athleteForm" action="">
+
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Nombre</ion-label>
+          <ion-input type="text" formControlName="name" name="name"
+          placeholder="Introduce nombre" required id="inpName"
+          [class.is-invalid]="athleteForm.get('name').touched && athleteForm.get('name').invalid"></ion-input>
+        </ion-item>
+        <div [hidden]="athleteForm.get('name').pristine || athleteForm.get('name').valid" class="ion-padding ion-text-center">
+          El nombre es obligatorio
+        </div>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Apellidos</ion-label>
+          <ion-input type="text" formControlName="surname" name="surname"
+          placeholder="Introduce apellidos" required id="inpSurname"
+          [class.is-invalid]="athleteForm.get('surname').touched && athleteForm.get('surname').invalid"></ion-input>
+        </ion-item>
+        <div [hidden]="athleteForm.get('surname').pristine || athleteForm.get('surname').valid" class="ion-padding ion-text-center">
+          Los apellidos son obligatorios
+        </div>
+      </ion-list>
+
+      <ion-item>
+        <ion-label position="fixed">Fecha nac.</ion-label>
+        <ion-datetime display-format="DD/MM/YYYY" min="1940-01-01" max="2021-12-31" formControlName="birthDay"
+          name="birthDay" required id="inpbirthDay" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Peso</ion-label>
+          <ion-input *ngIf="weight == -1" type="text" (click)="pickerPeso()" placeholder="Introducir peso"></ion-input>
+          <ion-input *ngIf="weight != -1" type="text" (click)="pickerPeso()" [value]="weight"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Altura</ion-label>
+          <ion-input *ngIf="height == -1" type="text" (click)="pickerAltura()" placeholder="Introducir peso"></ion-input>
+          <ion-input *ngIf="height != -1" type="text" (click)="pickerAltura()" [value]="height"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="ion-text-center ion-margin-top ion-padding-top">
+            <ion-button type="submit" color="primary" expand="block" 
+            [disabled]="!athleteForm.valid || validWeightAndHeight == false" (click)="sendAthleteData()">
+              Enviar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </form>
+
+  </div>
+
+</ion-content>

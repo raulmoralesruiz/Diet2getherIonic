@@ -22,6 +22,27 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./pages/entry/sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
+  {
+    path: 'athlete',
+    loadChildren: () => import('./pages/entry/athlete-data-register/athlete-data-register.module').then( m => m.AthleteDataRegisterPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'regime',
+    loadChildren: () => import('./pages/regime/regime/regime.module').then( m => m.RegimePageModule)
+  },
+  {
+    // path: 'friends',
+    path: 'social',
+    loadChildren: () => import('./pages/social/friends/friends.module').then( m => m.FriendsPageModule)
+  },
+  // {
+  //   path: 'add-friend',
+  //   loadChildren: () => import('./pages/social/add-friend/add-friend.module').then( m => m.AddFriendPageModule)
+  // },
 ];
 
 @NgModule({

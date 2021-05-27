@@ -99,8 +99,7 @@ export class LogInService {
                 });
               }, 10);
             } else {
-              // this.route.navigate(['home']);
-              this.route.navigate(['signup']);
+              this.route.navigate(['home']);
               setTimeout(() => {
                 Swal.fire({
                   title: 'Bienvenido a la version Alpha de Diet2gether',

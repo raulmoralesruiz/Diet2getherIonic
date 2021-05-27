@@ -1,55 +1,98 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>log-in</ion-title>
+    
+    <!-- <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons> -->
+
+    <ion-buttons slot="start">
+      <ion-menu-button menu="first" color="primary"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Inicia sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
+  
+  <ion-text color="primary" class="ion-text-center">
+    <h1>Inicia sesión</h1>
+  </ion-text>
+  <!-- <h1 class="ion-text-center ion-margin-bottom ion-padding-bottom">Inicia sesión</h1> -->
 
   <div id="divEntryForm">
     <form (ngSubmit)="onSubmit(loginForm.value)" #loginForm="ngForm">
-      <div class="entryFormField form-group">
-        <label class="form-control-label" for="user">Usuario</label><br>
-        <input class="dietInput form-control" [ngClass]="{'is-invalid': user.invalid && user.dirty}" #user="ngModel"
-          [(ngModel)]="loginUser.user" required type="text" name="username" id="inpUser" #userFocus
-          placeholder="Introduce usuario">
-        <div [hidden]="user.valid || user.pristine" class="invalid-feedback">
+
+      <!-- <ion-item>
+        <ion-label position="floating">Usuario</ion-label>
+        <ion-input [ngClass]="{'is-invalid': user.invalid && user.dirty}" #user="ngModel" [(ngModel)]="loginUser.user"
+          required type="text" name="username" id="inpUser" placeholder="Introduce usuario"></ion-input>
+      </ion-item>
+      <div [hidden]="user.valid || user.pristine" class="ion-padding ion-text-center">
+        El usuario es obligatorio
+      </div> -->
+
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Usuario</ion-label>
+          <ion-input [ngClass]="{'is-invalid': user.invalid && user.dirty}" #user="ngModel" [(ngModel)]="loginUser.user"
+            required type="text" name="username" id="inpUser" placeholder="Introduce usuario"></ion-input>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-input [ngClass]="{'is-invalid': user.invalid && user.dirty}" #user="ngModel" [(ngModel)]="loginUser.user"
+            required type="text" name="username" id="inpUser" placeholder="Introduce usuario"></ion-input>
+        </ion-item> -->
+        <div [hidden]="user.valid || user.pristine" class="ion-padding ion-text-center">
           El usuario es obligatorio
-        </div>
+        </div>  
+      </ion-list>
+
+
+      <ion-item>
+        <ion-label position="fixed">Contraseña</ion-label>
+      <!-- </ion-item>
+      <ion-item> -->
+        <ion-input [ngClass]="{'is-invalid': pass.invalid && pass.dirty}" #pass="ngModel" [(ngModel)]="loginUser.pass"
+        required [type]="hidePass ? 'password' : 'text'" name="password" id="inpPass"
+        placeholder="Introduce contraseña"></ion-input>
+        
+        <ion-icon *ngIf="hidePass" name="eye-outline" (click)="hidePass = !hidePass"></ion-icon>
+        <ion-icon *ngIf="!hidePass" name="eye-off-outline" (click)="hidePass = !hidePass"></ion-icon>
+      </ion-item>
+      <div [hidden]="pass.valid || pass.pristine" class="ion-padding ion-text-center">
+        La contraseña es obligatoria
       </div>
 
-      <div class="entryFormField form-group has-danger">
-        <label class="form-control-label" for="pass">
-          Contraseña
-          <i *ngIf="hidePass" class="fas fa-eye" (click)="hidePass = !hidePass"></i>
-          <i *ngIf="!hidePass" class="fas fa-eye-slash" (click)="hidePass = !hidePass"></i>
-        </label><br>
 
-        <input class="dietInput form-control" [ngClass]="{'is-invalid': pass.invalid && pass.dirty}" #pass="ngModel"
-          [(ngModel)]="loginUser.pass" required [type]="hidePass ? 'password' : 'text'" name="password" id="inpPass"
-          placeholder="Introduce contraseña">
-          
-        <!-- <i class="fas fa-key ml-3" (click)="hidePass = !hidePass"></i> -->
-        <div [hidden]="pass.valid || pass.pristine" class="invalid-feedback">
-          La contraseña es obligatoria
-        </div>
-      </div>
+      <ion-grid>   
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="ion-text-center ion-margin-top ion-padding-top">
+            <ion-button type="submit" color="primary" expand="block" [disabled]="!loginForm.valid">
+              Enviar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
-<!--       <div class="input-group">
-        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-        <div class="input-group-append">
-          <span class="input-group-text">.00</span>
-        </div>
-      </div>
- -->
-      <button name="btnGo" class="btn btn-primary btn-lg btn-mid" [disabled]="!loginForm.valid">Enviar</button>
     </form>
 
-    <button type="button" class="btn btn-link" [routerLink]="['/signup']">
+    <!-- <ion-button expand="block" fill="outline" shape="round" [routerLink]="['/signup']">
       Si todavía no estás registrado...
-    </button>
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" shape="round" [routerLink]="['/signup']">
+      Si todavía no estás registrado...
+    </ion-button> -->
   </div>
 
-
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" fill="clear" shape="round" [routerLink]="['/signup']">
+      Si todavía no estás registrado...
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
