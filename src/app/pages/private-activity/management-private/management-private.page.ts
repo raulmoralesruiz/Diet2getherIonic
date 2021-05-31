@@ -210,18 +210,4 @@ export class ManagementPrivatePage implements OnInit {
     this.goalWeight = parseFloat(kilos + '.' + grams);
   }
 
-  checkValues() {
-    console.log("expireDate");
-    console.log(this.privateForm.value.expireDate);
-
-    console.log("peso");
-    console.log(this.goalWeight);
-
-    console.log("registerMode");
-    console.log(this.registerMode);
-
-    console.log("activityMode");
-    console.log(this.activityMode);
-  }
-
 }
