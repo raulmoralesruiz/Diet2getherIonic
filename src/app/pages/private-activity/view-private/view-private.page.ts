@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonSlides, IonSegment } from '@ionic/angular';
 import { LogInService } from '../../entry/services/log-in.service';
 import { PrivateService } from '../services/private.service';
 import { AddRegisterPrvPage } from '../add-register-prv/add-register-prv.page';
@@ -12,6 +12,9 @@ import { AddRegisterPrvPage } from '../add-register-prv/add-register-prv.page';
   styleUrls: ['./view-private.page.scss'],
 })
 export class ViewPrivatePage implements OnInit {
+  @ViewChild(IonSlides) slides: IonSlides;
+  @ViewChild(IonSegment) segment: IonSegment;
+  
   /* Variable que almacena la pestaña activa: estado, registros o diario */
   activeMenuTab: string;
 
@@ -82,12 +85,50 @@ export class ViewPrivatePage implements OnInit {
 
   changeMenuTab(toChange: string) {
     this.activeMenuTab = toChange;
+
+    if (toChange == 'estado') {
+      this.slides.slideTo(0);
+    }
+    
+    if (toChange == 'diario') {
+      this.slides.slideTo(1);
+    }
+    
+    if (toChange == 'registros') {
+      this.slides.slideTo(2);
+    }
+  }
+
+  changeSlide() {
+    this.slides.getActiveIndex().then(index => {
+      console.log(index);
+
+      if (index == 0) {
+        // this.activeMenuTab = 'estado'
+        this.changeMenuTab('estado');
+        this.segment.value = 'estado'
+      }
+
+      
+      if (index == 1) {
+        // this.activeMenuTab = 'diario'
+        this.changeMenuTab('diario');
+        this.segment.value = 'diario'
+      }
+
+      if (index == 2) {
+        // this.activeMenuTab = 'registros'
+        this.changeMenuTab('registros');
+        this.segment.value = 'registros'
+      }
+    });
   }
 
   getProgressBar() {
     this.login.isUserInSession();
     this.privateService.getProgressBar().subscribe((response) => {
       this.progressBar = response;
+      console.log(response);
     });
   }
 
@@ -212,6 +253,6 @@ export class ViewPrivatePage implements OnInit {
     // Ejecutar después del modal
     this.getActivePrivateActivity();
     this.getAthleteRanking();
-  }
+  }  
   
 }

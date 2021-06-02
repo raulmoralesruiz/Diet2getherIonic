@@ -11,6 +11,7 @@ import { WelcomePrivatePage } from './welcome-private/welcome-private.page';
 import { ViewPrivatePage } from './view-private/view-private.page';
 import { ManagementPrivatePage } from './management-private/management-private.page';
 import { IonicModule } from '@ionic/angular';
+import { AddRegisterPrvPage } from './add-register-prv/add-register-prv.page';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
   declarations: [
     WelcomePrivatePage,
     ViewPrivatePage,
-    ManagementPrivatePage
+    ManagementPrivatePage,
+    AddRegisterPrvPage
   ],
   imports: [
     CommonModule,

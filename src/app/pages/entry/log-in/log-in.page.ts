@@ -14,10 +14,6 @@ import Swal from 'sweetalert2';
 // export class LogInPage implements OnInit, AfterViewInit {
 export class LogInPage implements OnInit {
 
-
-  /* Se crea variable para aplicar foco en el primer campo del formulario */
-  // @ViewChild('userFocus') userFocus: ElementRef;
-
   loginUser: LoginClass;
   userSignUpDto: UserSignUpDto;
   routeRedirect = '';
@@ -29,11 +25,6 @@ export class LogInPage implements OnInit {
     this.loginUser = new LoginClass("", "");
     this.userSignUpDto = new UserSignUpDto("", "");
   }
-
-  /* Se aplica foco en el primer campo del formulario */
-  // ngAfterViewInit(): void {
-  //   this.userFocus.nativeElement.focus();
-  // }
 
   ngOnInit(): void {
   }

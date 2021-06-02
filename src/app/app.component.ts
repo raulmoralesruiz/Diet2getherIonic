@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogInService } from './pages/entry/services/log-in.service';
 
+import { Plugins, PluginRegistry, Capacitor } from '@capacitor/core';
+const { SplashScreen, StatusBar }: PluginRegistry = Plugins;
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,6 +18,8 @@ export class AppComponent {
   constructor(private route: Router, private login: LogInService) {}
 
   ngOnInit(): void {
+    this.initializeApp();
+
     this.online = this.login.isLoggedIn('');
     this.admin = this.login.isAdmin('');
 
@@ -49,5 +55,13 @@ export class AppComponent {
     this.login.logout();
 
     // redirigir a welcome
+  }
+
+  initializeApp() {
+    SplashScreen.hide();
+
+    if (Capacitor.isPluginAvailable('StatusBar')) { 
+      StatusBar.setBackgroundColor({ color: '#6aab98' });
+    };
   }
 }

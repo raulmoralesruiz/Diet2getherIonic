@@ -13,6 +13,10 @@
 
 <ion-content class="ion-padding">
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de amigos</ion-card-title>
@@ -48,9 +52,7 @@
 
     <ion-card-content>  
       <ion-list *ngFor="let friend of friendRequests">
-        <ion-button shape="round">
-          Solicitud: {{friend.claimantAthlete}}
-        </ion-button>
+        <ion-button shape="round">{{friend.claimantAthlete}}</ion-button>
         <ion-icon class="ion-margin-start iconSize centrado" color="primary" name="checkmark-circle-outline" (click)="acceptFriendRequest(friend.id)"></ion-icon>
         <ion-icon class="ion-margin-start iconSize centrado" color="secondary" name="close-circle-outline" (click)="rejectFriendRequest(friend.id)"></ion-icon>
       </ion-list>
