@@ -1,6 +1,6 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    
+
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" color="primary">
       </ion-back-button>
@@ -10,129 +10,93 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  
-  <ion-list class="">
-    <ion-item>
-      <ion-label class="ion-text-center" color="">Con nosotros puedes...</ion-label>  
-    </ion-item>
-    <ion-item>
-      <ion-label class="ion-text-center" color="">Hacer amigos</ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content class="">
 
   <div class="fondo">
-    <div class="ion-text-center">
+    <h1 class="ion-no-margin ion-padding-top ion-text-center">Con nosotros puedes...</h1>
 
-      <div>
-        <p>Con nosotros puedes...</p>
-      </div>
-      <div class="">
-        <p>Hacer amigos</p>
-      </div>
-
-      <!-- <div class="">
-        <p>Bajar de peso, sólo o en grupo</p>
-      </div>
-      <div class="">
-        <p>Organizar tu dieta</p>
-      </div> -->
-    </div>
+    <ion-slides [options]="slideOpts">
+      <ion-slide>
+        <h3>Hacer amigos</h3>
+      </ion-slide>
+      <ion-slide>
+        <h3>Organizar tu dieta</h3>
+      </ion-slide>
+      <ion-slide>
+        <h3>Bajar de peso, sólo o en grupo</h3>
+      </ion-slide>
+    </ion-slides>
   </div>
 
+  <div id="body-content" class="ion-padding">
 
-  <div class="ion-text-center">
-    <h1>Bienvenido {{actualUser | titlecase }}</h1>
-    <h4>Hoy es {{dateNow | date:'fullDate'}}</h4>
+    <div class="ion-text-center">
+      <h1>Bienvenido {{actualUser | titlecase }}</h1>
+      <h4>Hoy es {{dateNow | date:'fullDate'}}</h4>
 
-    <ion-grid>   
-      <ion-row class="ion-justify-content-center">
-        <ion-col size="8" class="ion-text-center">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="8" class="ion-text-center">
             <p>Desde Diet2gether te deseamos que pases un buen día.</p>
             <p>Esperamos que puedas cumplir todos tus objetivos.</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
 
 
-  <!-- <div class="col-md-6"> -->
-    <div class="ion-text-center">
-      <div *ngIf="dayRegime.id!=null && dishNullFlag" class="detailsText">
-        <h2>¿Qué vas a comer hoy? </h2>
-        <h4>{{dateNow | date:'fullDate'}}</h4>
+    <ion-card class="cardTextSize">
+      <ion-card-header class="infoBoxBg">
+        <ion-card-title class="ion-text-center titlesColor">¿Qué vas a comer hoy?</ion-card-title>
+        <ion-card-subtitle class="ion-text-center titlesColor">{{dateNow | date:'fullDate'}}</ion-card-subtitle>
+      </ion-card-header>
 
-        <div>
-          <div *ngFor="let meal of dayRegime.meals">
-            <h3 *ngIf="meal.dish != null">{{meal.meal}}</h3>
-            <p *ngIf="meal.dish!= null">{{meal.dish.name}}</p>
-            <hr class="w-50" *ngIf="meal.dish!= null && meal!= null">
+      <ion-card-content class="ion-text-center">
+
+        <div class="ion-text-center">
+          <div *ngIf="dayRegime.id!=null && dishNullFlag" class="detailsText">
+            <div>
+              <div *ngFor="let meal of dayRegime.meals">
+                <h3 *ngIf="meal.dish != null">{{meal.meal}}</h3>
+                <p *ngIf="meal.dish!= null">{{meal.dish.name}}</p>
+                <!-- <hr class="w-50" *ngIf="meal.dish!= null && meal!= null"> -->
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="dayRegime.id==null || !dishNullFlag" class="detailsText">
+            <ion-card-subtitle class="ion-margin-top ion-margin-bottom" *ngIf="dayRegime.id==null">
+              Aún no tienes una dieta.
+            </ion-card-subtitle>
+            <ion-card-subtitle class="ion-margin-top ion-margin-bottom" *ngIf="!dishNullFlag">
+              Aún no has añadido platos a tu dieta.
+            </ion-card-subtitle>
+            <div class="botones">
+              <ion-button [routerLink]="['/regime']" color="secondary">Ir a dietas</ion-button>
+            </div>
           </div>
         </div>
-        
-      </div>
-      <div *ngIf="dayRegime.id==null || !dishNullFlag"class="detailsText">
-        <h2>¿Qué vas a comer hoy?</h2>
-        <h4>{{dateNow | date:'fullDate'}}</h4>
 
-        <h3 *ngIf="dayRegime.id==null" class="mt-3">
-          Aún no tienes una dieta.
-        </h3>
-        <h3 *ngIf="!dishNullFlag" class="mt-3">
-          Aún no has añadido platos a tu dieta.
-        </h3>
-        <div class="botones">
-          <ion-button [routerLink]="['/regime']" color="secondary">Ir a dietas</ion-button>
-        </div>
-      </div>
-    </div>
-  <!-- </div> -->
-  
+      </ion-card-content>
+    </ion-card>
+
 
     <ion-card class="ion-text-center ion-margin-top">
-      <ion-card-header>
-        <ion-card-title>Actividades</ion-card-title>
+      <ion-card-header class="infoBoxBg">
+        <ion-card-title class="titlesColor">Actividades</ion-card-title>
       </ion-card-header>
-      <ion-card-content class="ion-margin-start ion-margin-end">
+      <ion-card-content class="ion-margin-top ion-margin-start ion-margin-end">
         <p>En Diet2gether, puedes realizar actividades, que te ayudarán a alcanzar tu peso ideal.</p>
         <p>Puedes realizarlas con amigos, o en privado.</p>
         <p>Los puntos obtenidos en estas actividades, se almacenarán en un ranking.</p>
       </ion-card-content>
 
       <ion-list>
-          <ion-button [routerLink]="['/group/welcome']" color="secondary">Grupo</ion-button>
-          <ion-button [routerLink]="['/private/welcome']" color="secondary">Privado</ion-button>
-
-          <!-- <ion-button [routerLink]="['/group/welcome']" color="secondary">Grupo</ion-button>
-          <ion-button [routerLink]="['/private/welcome']" color="secondary">Privado</ion-button> -->
+        <ion-button [routerLink]="['/group/welcome']" color="secondary">Grupo</ion-button>
+        <ion-button [routerLink]="['/private/welcome']" color="secondary">Privado</ion-button>
       </ion-list>
     </ion-card>
 
-
-  <!-- <div class="col-md-6 m-auto"> -->
-    <!-- <div class="ion-text-center">
-      <h1>Actividades</h1>
-
-      <ion-grid>   
-        <ion-row class="ion-justify-content-center">
-          <ion-col size="8" class="ion-text-center">
-            <p>En Diet2gether, puedes realizar actividades, que te ayudarán a alcanzar tu peso ideal.</p>
-            <p>Puedes realizarlas con amigos, o en privado.</p>
-            <p>Los puntos obtenidos en estas actividades, se almacenarán en un ranking.</p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <div class="w-75 mx-auto">
-        
-      </div>
-
-      <div class="botones">
-        <ion-button [routerLink]="['/group/welcome']" color="secondary">Grupo</ion-button>
-        <ion-button [routerLink]="['/private/welcome']" color="secondary">Privado</ion-button>
-      </div>
-    </div> -->
-  <!-- </div> -->
-
+  </div>
 
 </ion-content>

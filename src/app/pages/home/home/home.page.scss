@@ -1,0 +1,21 @@
+@import "src/global.scss";
+
+.fondo {
+    background-color: $dietBannerBackground;
+    color: white;
+}
+
+.infoBoxBg {
+    background-color: $dietInfoBoxBackground;
+    color: white;
+}
+
+.cardTextSize {
+    p {
+        font-size: 18px;
+    }
+}
+
+.titlesColor{
+    --color: white;
+}

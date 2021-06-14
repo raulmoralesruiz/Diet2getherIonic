@@ -386,4 +386,20 @@ export class FriendsPage implements OnInit {
     console.log(data);
   }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    
+    this.getFriends();
+    this.getFriendRequests();
+    this.getGroupRequests();
+    
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
+
+    // event.target.complete();
+  }
+
 }

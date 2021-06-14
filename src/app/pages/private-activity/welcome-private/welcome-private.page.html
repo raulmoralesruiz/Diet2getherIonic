@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Private</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card *ngIf="actualGroup == null" class="ion-text-center">
+    <ion-card-header>
+      <ion-card-title>¿Qué puedes hacer aquí?</ion-card-title>
+      <ion-card-subtitle>Actividad privada</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content class="ion-margin-start ion-margin-end ion-margin-top">
+      <p>Esta es una de las secciones principales en Diet2gether.</p>
+      <p>Podrás visualizar la actividad privada en la que estás y revisar las estadísticas.</p>
+      <p>En caso de que no estés en una actividad privada podrás empezarla en cualquier momento.</p>
+      <p>¡A qué esperas!</p>
+
+      <ion-button *ngIf="actualPrivateActivity != null" [routerLink]="['/private/privateview']" color="secondary"
+        class="ion-margin-top">Ir a tu actividad</ion-button>
+      <ion-button *ngIf="actualPrivateActivity == null" [routerLink]="['/private/management']" color="secondary"
+        class="ion-margin-top">Crear actividad privada</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="actualGroup != null" class="ion-text-center">
+    <ion-card-header>
+      <ion-card-title>Actividad privada</ion-card-title>
+      <ion-card-subtitle>No es posible crear una actividad privada</ion-card-subtitle>
+      <ion-card-subtitle>Para crear una actividad privada, debes abandonar tu grupo</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  
+  <ion-card class="ion-text-center">
+    <ion-card-header>
+      <ion-card-title>¿Cómo funciona?</ion-card-title>
+      <ion-card-subtitle>Actividad privada</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content class="ion-margin-start ion-margin-end ion-margin-top">
+      <p>Esta actividad puede realizarse en diferentes modos.</p>
+      <p>Podrás adelgazar, engordar o mantenerte en tu peso ideal.</p>
+      <p>Elige como quieres que registrar tus pesos. De una forma clásica, o mas precisa.</p>
+      <p>¡Aquí comienza tu cambio!</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

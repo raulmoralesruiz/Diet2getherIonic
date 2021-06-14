@@ -1,0 +1,335 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Private</ion-title>
+  </ion-toolbar>
+
+  <ion-segment value="estado" (ionChange)="segmentChanged($event)" class="segment">
+    <ion-segment-button value="estado" (click)="changeMenuTab('estado')">
+      <ion-label>Estado</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="diario" (click)="changeMenuTab('diario')" *ngIf="registerMode == 'PROGRESSIVE'">
+      <ion-label>Diario</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="registros" (click)="changeMenuTab('registros')">
+      <ion-label>Registros</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+</ion-header>
+
+
+<ion-content class="">
+
+  <ion-slides (ionSlideDidChange)="changeSlide()">
+
+    <ion-slide>
+      <!-- Div Estado (equivalente a ranking en modo grupo) -->
+      <div *ngIf="activeMenuTab == 'estado'" class="ion-text-center ion-padding">
+
+        <h2>Tiempo restante: {{progressBar.daysLeft}} días</h2>
+
+        <!-- Barra de progreso -->
+        <div class="ion-margin-bottom ion-padding">
+          <ion-progress-bar [value]="progressBar.totalPercentage / 100" [buffer]="progressBar.totalPercentage / 100">
+          </ion-progress-bar>
+        </div>
+
+
+        <!-- Puntuación - Lista con badges -->
+        <ion-card class="cardTextSize">
+          <ion-card-header color="primary">
+            <ion-card-title>Detalles</ion-card-title>
+            <ion-card-subtitle>Datos de la actividad</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content class="ion-text-center">
+            <ion-item *ngIf="actualPrivateActivity" class="ion-text-center">
+              <ion-label>
+                Peso objetivo: {{actualPrivateActivity.weightObjective}} Kg
+              </ion-label>
+            </ion-item>
+            <ion-item *ngIf="athleteRanking" class="ion-text-center">
+              <ion-label>
+                {{athleteRanking.gamePoints}} puntos
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+
+        <div *ngIf="actualPrivateActivity" class="ion-text-center ion-padding">
+
+          <div *ngIf="actualPrivateActivity.privateActivityMode == 'LOSE'" class="ion-text-center">
+            <h1>{{actualPrivateActivity.privateActivityMode | titlecase}}</h1>
+            <div class="w-75 mx-auto">
+              <p>Este modo servirá para motivarte a adelgazar y estar en tu peso ideal.</p>
+              <p>Los puntos incrementarán cuando bajes peso.</p>
+            </div>
+          </div>
+
+          <div *ngIf="actualPrivateActivity.privateActivityMode == 'GAIN'" class="ion-text-center">
+            <h1>{{actualPrivateActivity.privateActivityMode | titlecase}}</h1>
+            <div class="w-75 mx-auto">
+              <p>Este modo servirá para motivarte a engordar y estar en tu peso ideal.</p>
+              <p>Los puntos incrementarán cuando subas de peso.</p>
+            </div>
+          </div>
+
+
+          <div *ngIf="actualPrivateActivity.registerMode == 'PROGRESSIVE'" class="ion-text-center">
+            <h1>{{actualPrivateActivity.registerMode | titlecase}}</h1>
+
+            <div class="w-75 mx-auto">
+              <p>Este es un modo nuevo, más preciso, para registrar tus pesos.</p>
+              <p>Registra tu peso una vez al día y espera a ver los resultados calculados automáticamente por nuestra
+                web
+                tras cada semana.</p>
+            </div>
+          </div>
+
+          <div *ngIf="actualPrivateActivity.registerMode == 'CLASSIC'" class="container text-center">
+            <h1>{{actualPrivateActivity.registerMode | titlecase}}</h1>
+
+            <div class="w-75 mx-auto">
+              <p>El modo clasico para registrar tus pesos en Diet2Gether.</p>
+              <p>En este modo se registra un peso cada semana, es una experiencia más relajada.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <ion-text color="danger" class="cursor-salir" (click)="getOutActivity()">
+          Abandonar actividad <ion-icon name="exit-outline"></ion-icon>
+        </ion-text>
+      </div>
+    </ion-slide>
+
+
+    <ion-slide>
+      <!-- Div Diario - PROGRESSIVE -->
+      <div *ngIf="activeMenuTab == 'diario'" class="ion-text-center ion-padding slide">
+
+        <ion-text>
+          <h2>Registros diarios <ion-icon *ngIf="isRegisterActive == true && registerMode == 'PROGRESSIVE'"
+              name="add-circle-outline" (click)="showModal()"></ion-icon>
+          </h2>
+        </ion-text>
+
+        <p *ngIf="isRegisterActive == false && registerMode == 'CLASSIC'" class="mx-auto">
+          <i class="far fa-clock lead mt-2"></i>
+          Aún no puedes añadir otro registro.<br>
+          Puedes crearlo el día {{ nextRegisterDate | date:'d/M' }}.
+        </p>
+
+        <!-- Modo PERDER peso -->
+        <ion-text color="primary">
+          <h3 *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'LOSE'">
+            Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+        <ion-text color="secondary">
+          <h3 *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'">
+            Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+
+        <!-- Modo GANAR peso -->
+        <ion-text color="secondary">
+          <h3 *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'GAIN'">
+            Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+
+        <ion-text color="primary">
+          <h3 *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'GAIN'">
+            Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+
+        <ion-text>
+          <h3 *ngIf="registersProgressiveMode.length == 0">
+            Aún no tienes registros en esta actividad <ion-icon name="time-outline"></ion-icon>
+          </h3>
+        </ion-text>
+
+        <div *ngFor="let register of registersProgressiveMode, let i = index">
+          <ion-card class="cardTextSize">
+            <ion-card-header color="primary">
+              <ion-card-title>{{register.weightDate | date:'fullDate'}}</ion-card-title>
+              <ion-card-subtitle>Registro clásico</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content class="ion-margin-top">
+
+              <ion-text>
+                <p>
+                  <ion-icon name="scale-outline"></ion-icon> Peso: {{register.weight}} kg
+                </p>
+              </ion-text>
+
+              <ion-text>
+                <p>
+                  <ion-icon name="calendar-outline"></ion-icon> Fecha: {{register.weightDate}}
+                </p>
+              </ion-text>
+
+              <!-- Modo PERDER peso -->
+              <ion-text *ngIf="register.weightDifference >= 0 && actualPrivateActivity.privateActivityMode == 'LOSE'"
+                color="primary">
+                <p>
+                  <ion-icon name="thumbs-up-outline"></ion-icon> Has perdido: {{register.weightDifference}} kg
+                </p>
+              </ion-text>
+              <ion-text *ngIf="register.weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'"
+                color="secondary">
+                <p>
+                  <ion-icon name="thumbs-down-outline"></ion-icon> Has ganado: {{register.weightDifference * -1}} kg
+                </p>
+              </ion-text>
+
+              <!-- Modo GANAR peso -->
+              <ion-text *ngIf="register.weightDifference >= 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
+                color="secondary">
+                <p>
+                  <ion-icon name="thumbs-down-outline"></ion-icon> Has perdido: {{register.weightDifference}} kg
+                </p>
+              </ion-text>
+              <ion-text *ngIf="register.weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
+                color="primary">
+                <p>
+                  <ion-icon name="thumbs-up-outline"></ion-icon> Has ganado: {{register.weightDifference * -1}} kg
+                </p>
+              </ion-text>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <!-- <div class="mt-4 pr-4">
+      <pagination-controls class="" (pageChange)="actualPage = $event" previousLabel="Anterior" nextLabel="Posterior"
+        responsive="true">
+      </pagination-controls>
+    </div> -->
+      </div>
+    </ion-slide>
+
+
+    <ion-slide>
+      <!-- Div Registros - CLASSIC y PROGRESSIVE -->
+      <div *ngIf="activeMenuTab == 'registros'" class="ion-text-center ion-padding slide">
+
+        <ion-text>
+          <h2>Mis registros <ion-icon *ngIf="isRegisterActive == true && registerMode == 'CLASSIC'"
+              name="add-circle-outline" (click)="showModal()"></ion-icon>
+          </h2>
+        </ion-text>
+
+        <p *ngIf="isRegisterActive == false && registerMode == 'CLASSIC'" class="mx-auto">
+          <i class="far fa-clock lead mt-2"></i>
+          Aún no puedes añadir otro registro.<br>
+          Puedes crearlo el día {{ nextRegisterDate | date:'d/M' }}.
+        </p>
+
+        <!-- Modo PERDER peso -->
+        <ion-text *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'LOSE'" color="primary">
+          <h3  class="text-primary">Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio</h3>
+        </ion-text>
+        <ion-text *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'" color="secondary">
+          <h3 class="text-secondary">Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio</h3>
+        </ion-text>
+
+        <!-- Modo GANAR peso -->
+        <ion-text color="secondary">
+          <h3 *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
+            class="text-secondary">
+            Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+        <ion-text color="primary">
+          <h3 *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'GAIN'" class="text-primary">
+            Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+
+        <ion-text>
+          <h3 *ngIf="registersClassicMode.length == 0">
+            Aún no tienes registros en esta actividad <ion-icon name="time-outline"></ion-icon>
+          </h3>
+        </ion-text>
+
+
+        <div>
+          <!-- <div class="col mb-4" *ngFor="let register of registersClassicMode | paginate:{itemsPerPage: 4, currentPage:actualPage};, let i = index"> -->
+          <div *ngFor="let register of registersClassicMode, let i = index">
+
+            <ion-card class="cardTextSize">
+              <ion-card-header color="primary">
+                <ion-card-title>{{register.weightDate | date:'fullDate'}}</ion-card-title>
+                <ion-card-subtitle>Registro clásico</ion-card-subtitle>
+              </ion-card-header>
+
+              <ion-card-content class="ion-margin-top">
+
+                <ion-text>
+                  <p>
+                    <ion-icon name="scale-outline"></ion-icon> Peso: {{register.weight}} kg
+                  </p>
+                </ion-text>
+
+                <ion-text>
+                  <p>
+                    <ion-icon name="calendar-outline"></ion-icon> Fecha: {{register.weightDate}}
+                  </p>
+                </ion-text>
+
+                <!-- Modo PERDER peso -->
+                <ion-text *ngIf="register.weightDifference >= 0 && actualPrivateActivity.privateActivityMode == 'LOSE'"
+                  color="primary">
+                  <p>
+                    <ion-icon name="thumbs-up-outline"></ion-icon> Has perdido: {{register.weightDifference}} kg
+                  </p>
+                </ion-text>
+                <ion-text *ngIf="register.weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'"
+                  color="secondary">
+                  <p>
+                    <ion-icon name="thumbs-down-outline"></ion-icon> Has ganado: {{register.weightDifference * -1}} kg
+                  </p>
+                </ion-text>
+
+                <!-- Modo GANAR peso -->
+                <ion-text *ngIf="register.weightDifference >= 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
+                  color="secondary">
+                  <p>
+                    <ion-icon name="thumbs-down-outline"></ion-icon> Has perdido: {{register.weightDifference}} kg
+                  </p>
+                </ion-text>
+                <ion-text *ngIf="register.weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
+                  color="primary">
+                  <p>
+                    <ion-icon name="thumbs-up-outline"></ion-icon> Has ganado: {{register.weightDifference * -1}} kg
+                  </p>
+                </ion-text>
+              </ion-card-content>
+            </ion-card>
+
+          </div>
+
+        </div>
+
+
+        <!-- <div class="mt-4 pr-4">
+      <pagination-controls class="" (pageChange)="actualPage = $event" previousLabel="Anterior" nextLabel="Posterior"
+        responsive="true">
+      </pagination-controls>
+    </div> -->
+      </div>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

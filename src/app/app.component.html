@@ -7,13 +7,14 @@
         <ion-menu-button menu="first" color="primary"></ion-menu-button>
       </ion-buttons>
 
-      <ion-buttons slot="end">
+      <ion-buttons slot="end" *ngIf="online == true">
         <ion-button (click)="logout()">
           <ion-icon name="log-out-outline" class="logoutIcon" color="secondary"></ion-icon>
         </ion-button>
       </ion-buttons>
 
-      <ion-title>Diet2gether</ion-title>
+      <ion-title *ngIf="online == true" [routerLink]="['/home']" class="dietFont titleSize">Diet2gether</ion-title>
+      <ion-title *ngIf="online == false" [routerLink]="['/welcome']" class="dietFont titleSize" [ngClass]="{titleMargin: !online}">Diet2gether</ion-title>
     </ion-toolbar>
   </ion-header>
   
@@ -22,8 +23,8 @@
     <ion-header class="">
       <ion-toolbar color="primary">
         <ion-menu-toggle>
-          <ion-title *ngIf="online == true" [routerLink]="['/home']">Diet2gether</ion-title>
-          <ion-title *ngIf="online == false" [routerLink]="['/welcome']">Diet2gether</ion-title>
+          <ion-title class="dietFont" *ngIf="online == true" [routerLink]="['/home']">Diet2gether</ion-title>
+          <ion-title class="dietFont" *ngIf="online == false" [routerLink]="['/welcome']">Diet2gether</ion-title>
         </ion-menu-toggle>
       </ion-toolbar>
     </ion-header>
@@ -44,7 +45,7 @@
             <ion-icon name="people-outline" color="primary"></ion-icon>Social
           </ion-item>
           <ion-item *ngIf="online == true">
-            <ion-icon name="calendar-outline" color="primary"></ion-icon>Dieta
+            <ion-icon name="restaurant-outline" color="primary"></ion-icon>Dieta
           </ion-item>
           <ion-item *ngIf="online == true">
             <ion-icon name="body-outline" color="primary"></ion-icon>Actividades

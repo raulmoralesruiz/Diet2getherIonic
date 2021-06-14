@@ -1,0 +1,120 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Private</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-text color="primary" class="ion-text-center">
+    <h1>Finalizar registro</h1>
+  </ion-text>
+
+  <div id="divEntryForm">
+
+    <form [formGroup]="privateForm" action="">
+
+      <ion-item>
+        <ion-label position="fixed">Fecha nac.</ion-label>
+        <ion-datetime display-format="DD/MM/YYYY" min="1940-01-01" max="2021-12-31" formControlName="expireDate"
+          name="expireDate" required id="inpExpireDate" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
+        </ion-datetime>
+      </ion-item>
+
+      
+      <ion-list>
+        <ion-item>
+          <ion-label position="fixed">Peso</ion-label>
+          <ion-input *ngIf="goalWeight == -1" type="text" (click)="pickerPeso()" placeholder="Introducir peso"></ion-input>
+          <ion-input *ngIf="goalWeight != -1" type="text" (click)="pickerPeso()" [value]="goalWeight"></ion-input>
+        </ion-item>
+      </ion-list>
+
+
+      <div class="ion-text-center ion-margin-top">
+        <label class="ion-margin-top">Modo de actividad</label>
+
+        <ion-list>
+          <ion-button (click)="changeActivityMode('LOSE')" shape="round" [ngClass]="{'active': activityMode == 'LOSE'}">
+            Adelgazar
+          </ion-button>
+          <ion-button (click)="changeActivityMode('GAIN')" shape="round" [ngClass]="{'active': activityMode == 'GAIN'}">
+            Engordar
+          </ion-button>
+          <ion-button (click)="changeActivityMode('MAINTAIN')" shape="round" [ngClass]="{'active': activityMode == 'MAINTAIN'}" disabled>
+            Mantenimiento
+          </ion-button>
+        </ion-list>
+      </div>
+
+      <div *ngIf="activityMode == 'LOSE'" class="ion-text-center">
+        <p>Con este modo, los puntos calculados por tus registros, irán escalando cuando vayas
+          <ion-label color="primary" class="bold">bajando</ion-label> de peso. El cálculo de las diferencias de peso y
+          nuestros mensajes apoyaran esta elección.</p>
+      </div>
+
+      <div *ngIf="activityMode == 'MAINTAIN'" class="ion-text-center">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium excepturi autem
+          quod
+          voluptatem impedit
+          officia animi sit esse sint? Obcaecati perferendis corrupti suscipit tenetur sequi? Harum neque at sunt
+          mollitia!
+        </p>
+      </div>
+
+      <div *ngIf="activityMode == 'GAIN'" class="ion-text-center">
+        <p>Con este modo, los puntos calculados por tus registros, irán escalando cuando vayas
+          <ion-label color="primary" class="bold">subiendo</ion-label> de peso. El cálculo de las diferencias de peso y
+          nuestros mensajes apoyaran esta elección.</p>
+      </div>
+
+
+
+      <div class="ion-text-center ion-margin-top">
+        <label class="ion-margin-top">Modo de registro</label>
+
+        <ion-list>
+          <ion-button (click)="changeRegisterMode('PROGRESSIVE')" shape="round" [ngClass]="{'active': registerMode == 'PROGRESSIVE'}">
+            Progresivo
+          </ion-button>
+          <ion-button (click)="changeRegisterMode('CLASSIC')" shape="round" [ngClass]="{'active': registerMode == 'CLASSIC'}">
+            Clásico
+          </ion-button>
+        </ion-list>
+      </div>
+
+      <div *ngIf="registerMode == 'PROGRESSIVE'" class="ion-text-center">
+        <p>Con este nuevo modo cambia totalmente la filosofía en el registro de tus pesos. Podras ir registrando una vez al dia tu peso, cada semana
+          se calculara un registro de forma automatica con los datos obtenidos de estos registros diarios. Este registro será el que otorgue los puntos y sera un 
+          registro mucho mas preciso.</p>
+      </div>
+
+      <div *ngIf="registerMode == 'CLASSIC'" class="ion-text-center">
+        <p>Este es el modo clasico de Diet2Gether para registrar tus pesos. Podrás registrar tu peso una vez a la semana. Este registro contara directamente, para tus puntos.
+          Es perfecto por si quieres una experiencia mas tranquila.
+        </p>
+      </div>
+
+
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="ion-text-center ion-margin-top ion-padding-top">
+            <ion-button type="submit" color="primary" expand="block" 
+            [disabled]="!privateForm.valid || validWeight == false" (click)="createPrivateActivity()">
+              Enviar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </form>
+
+  </div>
+
+</ion-content>
