@@ -13,7 +13,8 @@
         </ion-button>
       </ion-buttons>
 
-      <ion-title class="dietFont titleSize" [ngClass]="{titleMargin: !online}">Diet2gether</ion-title>
+      <ion-title *ngIf="online == true" [routerLink]="['/home']" class="dietFont titleSize">Diet2gether</ion-title>
+      <ion-title *ngIf="online == false" [routerLink]="['/welcome']" class="dietFont titleSize" [ngClass]="{titleMargin: !online}">Diet2gether</ion-title>
     </ion-toolbar>
   </ion-header>
   

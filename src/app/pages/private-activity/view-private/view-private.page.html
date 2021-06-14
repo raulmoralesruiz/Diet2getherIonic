@@ -236,26 +236,21 @@
         </p>
 
         <!-- Modo PERDER peso -->
-        <ion-text class="ion-padding" color="primary">
-          <h3 *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'LOSE'" class="text-primary">
-            Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
-          </h3>
+        <ion-text *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'LOSE'" color="primary">
+          <h3  class="text-primary">Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio</h3>
         </ion-text>
-        <ion-text class="ion-padding" color="secondary">
-          <h3 *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'"
-            class="text-secondary">
-            Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
-          </h3>
+        <ion-text *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'LOSE'" color="secondary">
+          <h3 class="text-secondary">Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio</h3>
         </ion-text>
 
         <!-- Modo GANAR peso -->
-        <ion-text class="ion-padding" color="secondary">
+        <ion-text color="secondary">
           <h3 *ngIf="weightDifference > 0 && actualPrivateActivity.privateActivityMode == 'GAIN'"
             class="text-secondary">
             Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
           </h3>
         </ion-text>
-        <ion-text class="ion-padding" color="primary">
+        <ion-text color="primary">
           <h3 *ngIf="weightDifference < 0 && actualPrivateActivity.privateActivityMode == 'GAIN'" class="text-primary">
             Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
           </h3>
