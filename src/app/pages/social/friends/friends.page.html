@@ -18,17 +18,18 @@
   </ion-refresher>
 
   <ion-card>
-    <ion-card-header>
+    <ion-card-header color="primary">
       <ion-card-title>Lista de amigos</ion-card-title>
-      <ion-card-subtitle *ngIf="userFriends.length == 0">No tienes amigos actualmente. 
-        <ion-icon name="sad-outline" class="iconSize centrado"></ion-icon>
-      </ion-card-subtitle>
       <ion-card-subtitle *ngIf="userFriends.length == 1">Tienes {{userFriends.length}} amigo</ion-card-subtitle>
       <ion-card-subtitle *ngIf="userFriends.length > 1">Tienes {{userFriends.length}} amigos</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-list>
+      <ion-card-subtitle *ngIf="userFriends.length == 0" class="ion-margin-top">No tienes amigos actualmente. 
+        <ion-icon name="sad-outline" class="iconSize centrado"></ion-icon>
+      </ion-card-subtitle>
+
+      <ion-list *ngIf="userFriends.length > 0">
         <ion-item *ngFor="let friend of userFriends">
           <ion-button expand="block" shape="round">
             <ion-icon class="ion-margin-end" name="person-outline"></ion-icon> {{friend}}
@@ -41,16 +42,17 @@
 
 
   <ion-card>
-    <ion-card-header>
+    <ion-card-header color="primary">
       <ion-card-title>
         Amigos <ion-icon class="centrado" name="add-circle-outline" (click)="showModal()"></ion-icon>
       </ion-card-title>
-      <ion-card-subtitle *ngIf="friendRequests.length == 0">No tienes solicitudes pendientes.</ion-card-subtitle>
       <ion-card-subtitle *ngIf="friendRequests.length == 1">Tienes {{friendRequests.length}} solicitud pendiente</ion-card-subtitle>
       <ion-card-subtitle *ngIf="friendRequests.length > 1">Tienes {{friendRequests.length}} solicitud pendientes</ion-card-subtitle>
     </ion-card-header>
 
-    <ion-card-content>  
+    <ion-card-content>
+      <ion-card-subtitle *ngIf="friendRequests.length == 0" class="ion-margin-top">No tienes solicitudes pendientes.</ion-card-subtitle>
+      
       <ion-list *ngFor="let friend of friendRequests">
         <ion-button shape="round">{{friend.claimantAthlete}}</ion-button>
         <ion-icon class="ion-margin-start iconSize centrado" color="primary" name="checkmark-circle-outline" (click)="acceptFriendRequest(friend.id)"></ion-icon>
@@ -62,16 +64,18 @@
 
 
   <ion-card>
-    <ion-card-header>
+    <ion-card-header color="primary">
       <ion-card-title>
         Grupos
       </ion-card-title>
-      <ion-card-subtitle *ngIf="groupRequests.length == 0">No tienes solicitudes de grupo pendientes</ion-card-subtitle>
+      <!-- <ion-card-subtitle *ngIf="groupRequests.length == 0">No tienes solicitudes de grupo pendientes</ion-card-subtitle> -->
       <ion-card-subtitle *ngIf="groupRequests.length == 1">Tienes {{groupRequests.length}} solicitud de grupo pendiente</ion-card-subtitle>
       <ion-card-subtitle *ngIf="groupRequests.length > 1">Tienes {{groupRequests.length}} solicitudes de grupo pendientes</ion-card-subtitle>
     </ion-card-header>
 
-    <ion-card-content>  
+    <ion-card-content>
+      <ion-card-subtitle *ngIf="groupRequests.length == 0" class="ion-margin-top">No tienes solicitudes de grupo pendientes</ion-card-subtitle>
+
       <ion-list *ngFor="let group of groupRequests">
         <ion-button shape="round">
           Solicitud: {{group.claimantAthlete}}

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonSlides } from '@ionic/angular';
 import { LogInService } from '../../entry/services/log-in.service';
 import { DayRegimeInterface } from '../../regime/models/dayRegime.interface';
 import { RegimeService } from '../../regime/services/regime.service';
@@ -9,10 +10,20 @@ import { RegimeService } from '../../regime/services/regime.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild(IonSlides) slides: IonSlides;
+  
   dishNullFlag: boolean = true;
   actualUser: string;
   dateNow: number;
   dayRegime: DayRegimeInterface = { id: null, day: 'Holi', meals: [] };
+
+  slideOpts = {
+    speed: 2000,
+    autoplay: {
+      delay: 5000
+    },
+    
+  };
 
   constructor(
     private login: LogInService,
