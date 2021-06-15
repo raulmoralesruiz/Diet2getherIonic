@@ -32,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: 'regime',
-    loadChildren: () => import('./pages/regime/regime/regime.module').then( m => m.RegimePageModule)
+    loadChildren: () => import('./pages/regime/regime.module').then( m => m.RegimeModule)
   },
   {
     // path: 'friends',
@@ -42,7 +42,7 @@ const routes: Routes = [
   {
     path:'private',
     loadChildren: () => import("./pages/private-activity/private.module").then(m => m.PrivateModule)
-  },
+  }
 ];
 
 @NgModule({

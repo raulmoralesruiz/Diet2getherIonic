@@ -79,10 +79,6 @@ export class ViewPrivatePage implements OnInit {
     this.getAthleteRanking();
   }
 
-  segmentChanged(event) {
-    console.log(event);
-  }
-
   changeMenuTab(toChange: string) {
     this.activeMenuTab = toChange;
 

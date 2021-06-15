@@ -1,0 +1,53 @@
+<ion-content class="ion-padding">
+
+  <div class="center-screen">
+    
+    <ion-card>
+      <ion-card-header color="primary">
+        <ion-card-title>Dieta</ion-card-title>
+        <ion-card-subtitle>Seleccionar plato</ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <form [formGroup]="createDishForm" action="">
+          <ion-list>
+            <ion-item>
+              <ion-label>Introduce el nombre del plato:</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-input type="text" formControlName="name" name="name" placeholder="Nombre del plato" autocomplete="off"></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-item>
+              <ion-label>Introduce la descripción:</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-input type="text" formControlName="description" name="description" placeholder="Descripción del plato" autocomplete="off"></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <!-- <ion-list>
+            <ion-item>
+              <ion-label>Categorías:</ion-label>
+            </ion-item>
+            <ion-list>
+              <ion-item *ngFor="let category of dishesCategories">
+                <ion-label>{{category.name}}</ion-label>
+                <ion-checkbox slot="end" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+          </ion-list> -->
+
+        </form>
+      
+        <ion-button expand="block" shape="round" (click)="createDish()">Enviar</ion-button>
+        <ion-button class="ion-margin-top" (click)="exitModal()" fill="clear" expand="block">Volver</ion-button>
+        
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

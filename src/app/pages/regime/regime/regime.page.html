@@ -1,9 +1,204 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>regime</ion-title>
   </ion-toolbar>
+
+  <ion-segment value="regime" class="segment">
+    <ion-segment-button value="regime" (click)="changeMenuTab('regime')">
+      <ion-label>Mi dieta</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="dishes" (click)="changeMenuTab('dishes')">
+      <ion-label>Mis platos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
 </ion-header>
 
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides (ionSlideDidChange)="changeSlide()">
+
+    <ion-slide>
+      <!--MI DIETA-->
+      <div *ngIf="activeMenuTab == 'regime'" class="">
+
+        <!-- Sección Dieta, sin platos -->
+        <!-- <div *ngIf="dishes.length == 0" class="ion-padding-start ion-padding-end"> -->
+        <div *ngIf="dishes.length == 0" class="">
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="10" class="ion-text-center">
+                <h1>No tienes una <ion-text color="primary">dieta</ion-text> registrada actualmente</h1>
+                <h4>Para crear una dieta debes tener platos registrados</h4>
+                <h4>Puedes crear uno en la sección Mis platos</h4>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-button (click)="changeMenuTab('dishes')">
+            Ir a mis platos
+          </ion-button>
+        </div>
+
+        <!-- Sección Dieta, con platos y sin estructura de dieta -->
+        <!-- <div *ngIf="dishes.length > 0 && daysRegime.length == 0" class="container text-center mt-4"> -->
+        <div *ngIf="dishes.length > 0 && daysRegime.length == 0" class="">
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="10" class="ion-text-center">
+                <h1>No tienes una <ion-text color="primary">dieta</ion-text> registrada actualmente</h1>
+                <h4>Tienes {{dishes.length}} platos registrados</h4>
+                <h4>Pulsa el siguiente botón para crear una dieta</h4>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-button (click)="createRegimeStructure()">
+            Crear dieta
+          </ion-button>
+        </div>
+
+        <!-- Sección Dieta, con platos y con estructura de dieta -->
+        <div *ngIf="dishes.length > 0 && daysRegime.length > 0" class="slideWidth">
+
+          <div *ngFor="let day of daysRegime, let i = index">
+
+            <ion-list>
+              <ion-item color="secondary">
+                <ion-label>{{day.day}}</ion-label>
+              </ion-item>
+            </ion-list>
+
+            <div *ngFor="let meal of daysRegime[i].meals, let m = index" class="ion-margin-top">
+              <ion-item-divider class="ion-text-center">
+                <h4 *ngIf="meal.dish == null">
+                  {{meal.meal}}
+                </h4>
+
+                <h4 *ngIf="meal.dish != null">
+                  CAMBIAR {{meal.meal}} <i class="fas fa-exchange-alt pointer" data-toggle="modal"
+                    data-target="#modalSelectDish" (click)="setMeal(meal.id)"></i>
+                </h4>
+              </ion-item-divider>
+
+              <div *ngIf="meal.dish != null" class="">
+
+                <ion-card class="cardTextSize">
+                  <ion-card-header color="primary" (click)="toggleDisplay($event)">
+                    <ion-card-title>{{meal.dish.name}}</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content class="ion-margin-top">
+                    <p>{{meal.dish.description}}</p>
+
+                    <!-- <div class="d-flex text-center" *ngIf="meal.dish.categories.length > 0">
+                      <ion-text color="primary" *ngFor="let cat of meal.dish.categories, let i = index">
+                        <ion-icon [name]="addIconToCategory(cat)"></ion-icon>
+                      </ion-text>
+                    </div> -->
+                  </ion-card-content>
+                </ion-card>
+              </div>
+
+
+              <div *ngIf="meal.dish == null" class="form-group">
+                <ion-button color="secondary" (click)="showModalSelectDish(meal.id)" shape="round">
+                  Elegir plato
+                </ion-button>
+                <!-- <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalSelectDish"
+                  (click)="setMeal(meal.id)">
+                  Elegir plato
+                </button> -->
+              </div>
+
+              <hr *ngIf="m <= 3" class="mb-3">
+            </div> <!-- fin . for daysRegime[i].meals -->
+          </div> <!-- fin. for day of daysRegime -->
+
+        </div>
+
+        <!-- Espacio al final de la pantalla -->
+        <div class="ion-margin-bottom"></div>
+
+      </div>
+
+
+      <!-- fin . sección MI DIETA -->
+    </ion-slide>
+
+    <ion-slide>
+
+      <div *ngIf="activeMenuTab == 'dishes'" class="slideWidth">
+
+        <div *ngIf="dishes.length == 0" class="ion-padding-start ion-padding-end">
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="10" class="ion-text-center">
+                <h1>No tienes <ion-text color="primary">platos</ion-text> registrados actualmente</h1>
+                <h4>Puedes crear un plato en el siguiente botón</h4>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-button (click)="showModalCreateDish()">
+            Crear plato
+          </ion-button>
+        </div>
+
+
+
+        <div *ngIf="dishes.length > 0" class="">
+
+          <ion-grid>
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="10" class="ion-text-center">
+                <h4>Tienes {{dishes.length}} platos registrados</h4>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-card *ngFor="let dish of dishes, let i = index">
+            <ion-card-header color="primary">
+              <ion-card-title>{{dish.name}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>{{dish.description}}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- <div class="card-columns">
+            <div class="card border-primary shadow-sm rounded" *ngFor="let dish of dishes;, let i = index">
+              <h3 class="card-header selectColor text-white font-weight-bold">{{dish.name}}</h3>
+              <div class="card-body">
+                <h4 class="card-title">
+                  {{dish.description}}
+                </h4>
+
+                <hr *ngIf="dish.categories.length > 0">
+      
+                <div class="d-flex text-center" *ngIf="dish.categories.length > 0">
+                  <div *ngFor="let cat of dish.categories, let i = index" class="card-text mx-auto">
+                    <i [ngClass]="addIconToCategory(cat)"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <ion-button (click)="showModalCreateDish()">
+            Crear plato
+          </ion-button>
+        </div>
+
+      </div>
+
+    </ion-slide>
+
+
+
+  </ion-slides>
 
 </ion-content>

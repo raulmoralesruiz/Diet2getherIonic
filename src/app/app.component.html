@@ -38,19 +38,30 @@
           <ion-item *ngIf="online == false" [routerLink]="['/signup']">
             <ion-icon name="log-in-outline" color="primary"></ion-icon>Sign-up
           </ion-item>
-          <ion-item *ngIf="online == true">
+          <ion-item *ngIf="online == true" disabled>
             <ion-icon name="person-circle-outline" color="primary"></ion-icon>Mi perfil
           </ion-item>
           <ion-item *ngIf="online == true" [routerLink]="['/social']">
             <ion-icon name="people-outline" color="primary"></ion-icon>Social
           </ion-item>
-          <ion-item *ngIf="online == true">
+          <ion-item *ngIf="online == true" [routerLink]="['/regime']">
             <ion-icon name="restaurant-outline" color="primary"></ion-icon>Dieta
           </ion-item>
+          
           <ion-item *ngIf="online == true">
             <ion-icon name="body-outline" color="primary"></ion-icon>Actividades
           </ion-item>
-          <ion-item *ngIf="online == true">
+          
+          <ion-item-divider>
+            <ion-item *ngIf="online == true" disabled [routerLink]="['/group']">
+              <ion-icon name="football-outline" color="primary"></ion-icon>Grupo
+            </ion-item>
+            <ion-item *ngIf="online == true" [routerLink]="['/private']">
+              <ion-icon name="bicycle-outline" color="primary"></ion-icon>Privado
+            </ion-item>
+          </ion-item-divider>
+
+          <ion-item *ngIf="online == true" disabled>
             <ion-icon name="create-outline" color="primary"></ion-icon>Surgerencias de mejora
           </ion-item>
           <ion-item *ngIf="online == true" (click)="logout()">
