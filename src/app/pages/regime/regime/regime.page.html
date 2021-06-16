@@ -16,6 +16,13 @@
 
 <ion-content>
 
+  <!-- Botón crear plato -->
+  <ion-fab *ngIf="dishes.length > 0 && actualSlide == 1" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add" (click)="showModalCreateDish()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -51,7 +58,8 @@
             <ion-row class="ion-justify-content-center">
               <ion-col size="10" class="ion-text-center">
                 <h1>No tienes una <ion-text color="primary">dieta</ion-text> registrada actualmente</h1>
-                <h4>Tienes {{dishes.length}} platos registrados</h4>
+                <h4 *ngIf="dishes.length == 1">Tienes {{dishes.length}} plato registrado</h4>
+                <h4 *ngIf="dishes.length > 1">Tienes {{dishes.length}} platos registrados</h4>
                 <h4>Pulsa el siguiente botón para crear una dieta</h4>
               </ion-col>
             </ion-row>
@@ -74,16 +82,15 @@
             </ion-list>
 
             <div *ngFor="let meal of daysRegime[i].meals, let m = index" class="ion-margin-top">
-              <ion-item-divider class="ion-text-center">
-                <h4 *ngIf="meal.dish == null">
-                  {{meal.meal}}
-                </h4>
 
-                <h4 *ngIf="meal.dish != null">
-                  CAMBIAR {{meal.meal}} <i class="fas fa-exchange-alt pointer" data-toggle="modal"
-                    data-target="#modalSelectDish" (click)="setMeal(meal.id)"></i>
-                </h4>
-              </ion-item-divider>
+              <ion-chip *ngIf="meal.dish == null" color="primary">
+                <ion-label>{{meal.meal}}</ion-label>
+              </ion-chip>
+
+              <ion-chip *ngIf="meal.dish != null" color="primary" (click)="showModalSelectDish(meal.id)">
+                <ion-label>{{meal.meal}}</ion-label>
+                <ion-icon name="swap-horizontal-outline"></ion-icon>
+              </ion-chip>
 
               <div *ngIf="meal.dish != null" class="">
 
@@ -155,7 +162,8 @@
           <ion-grid>
             <ion-row class="ion-justify-content-center">
               <ion-col size="10" class="ion-text-center">
-                <h4>Tienes {{dishes.length}} platos registrados</h4>
+                <h4 *ngIf="dishes.length == 1">Tienes {{dishes.length}} plato registrado</h4>
+                <h4 *ngIf="dishes.length > 1">Tienes {{dishes.length}} platos registrados</h4>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -188,9 +196,9 @@
             </div>
           </div> -->
 
-          <ion-button (click)="showModalCreateDish()">
+          <!-- <ion-button (click)="showModalCreateDish()" class="ion-margin-bottom">
             Crear plato
-          </ion-button>
+          </ion-button> -->
         </div>
 
       </div>

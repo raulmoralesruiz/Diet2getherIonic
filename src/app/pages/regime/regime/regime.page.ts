@@ -62,6 +62,8 @@ export class RegimePage implements OnInit {
     dish: new FormControl('', Validators.required),
   });
 
+  actualSlide: number;
+
   constructor(
     private regimeService: RegimeService,
     private login: LogInService,
@@ -97,6 +99,8 @@ export class RegimePage implements OnInit {
 
   changeSlide() {
     this.slides.getActiveIndex().then(index => {
+      this.actualSlide = index;
+
       if (index == 0) {
         this.changeMenuTab('regime');
         this.segment.value = 'regime'
