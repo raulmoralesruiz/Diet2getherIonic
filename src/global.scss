@@ -33,3 +33,21 @@
 $dietBannerBackground:      #9CD3C4;
 $dietInfoBoxBackground:     #A1C5CE;
 $dietInfoBoxLink:           #4D8593;
+
+.rojo, .rojo .sc-ion-action-sheet-md {
+    color: #eb445a !important;
+}
+
+.alert-danger {
+    --background: #eb445a;
+
+    .alert-title.sc-ion-alert-md, .alert-title.sc-ion-alert-ios {
+        color: black;
+    }   
+    .alert-message.sc-ion-alert-md, .alert-message.sc-ion-alert-ios {
+        color: white;
+    }
+    .alert-button.sc-ion-alert-md, .alert-button.sc-ion-alert-ios {
+        color: black;
+    }
+}
