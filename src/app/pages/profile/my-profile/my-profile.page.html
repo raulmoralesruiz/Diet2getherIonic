@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-segment value="personal" class="segment">
+  <ion-segment-button value="personal" (click)="changeMenuTab('personal')">
+    <ion-label>Personal</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="imc" (click)="changeMenuTab('imc')">
+    <ion-label>IMC</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="scales" (click)="changeMenuTab('scales')">
+    <ion-label>Baremos</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="stats" (click)="changeMenuTab('stats')">
+    <ion-label>Estadísticas</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-content>
+
+  <ion-slides (ionSlideDidChange)="changeSlide()">
+    
+    <ion-slide class="">
+
+      <div class="width100">
+      
+        <ion-list class="ion-text-center">
+
+          <ion-chip color="primary" outline="true">
+            <ion-label>Datos personales</ion-label>
+          </ion-chip>
+
+          <form [formGroup]="profileForm" action="">
+
+            <ion-item>
+              <ion-label position="fixed">Nombre</ion-label>
+              <ion-input [clearInput]="clearInput" [color]="textColor" formControlName="name"
+                [value]="athleteName | titlecase" [placeholder]="athleteName | titlecase" [readonly]="readOnly">
+              </ion-input>
+            </ion-item>
+            <ion-text *ngIf="!profileFormLocked" color="danger" [hidden]="profileForm.get('name').pristine || profileForm.get('name').valid" class="ion-padding ion-text-center">
+              El nombre es obligatorio
+            </ion-text>
+
+            <ion-item>
+              <ion-label position="fixed">Apellidos</ion-label>
+              <ion-input [clearInput]="clearInput" [color]="textColor" formControlName="surname"
+                [value]="athleteSurname | titlecase" [placeholder]="athleteSurname | titlecase" [readonly]="readOnly"
+                required></ion-input>
+            </ion-item>
+            <ion-text *ngIf="!profileFormLocked" color="danger" [hidden]="profileForm.get('surname').pristine || profileForm.get('surname').valid" class="ion-padding ion-text-center">
+              Los apellidos son obligatorios
+            </ion-text>
+
+            <ion-item>
+              <ion-label position="fixed">Fecha nac.</ion-label>
+              <ion-input *ngIf="profileFormLocked" [value]="athleteBirthday" readonly></ion-input>
+              <ion-datetime *ngIf="!profileFormLocked" display-format="DD/MM/YYYY" min="1940-01-01" max="2021-12-31" formControlName="birthday"
+                name="birthday" required id="inpbirthday" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="fixed">Altura</ion-label>
+              <ion-input [value]="athleteHeight" [readonly]="readOnly"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="fixed">Peso</ion-label>
+              <ion-input [clearInput]="clearInput" [value]="athleteWeight" readonly></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="fixed">Usuario</ion-label>
+              <ion-input [value]="actualUser" readonly></ion-input>
+            </ion-item>
+
+            <div class="ion-padding-top">
+              <ion-button color="primary" class="ion-margin-top" *ngIf="profileFormLocked" expand="block" (click)="setProfileFormToModify()">Modificar</ion-button>
+              <ion-button color="primary" class="ion-margin-top" *ngIf="!profileFormLocked" (click)="sendProfileForm()">Enviar</ion-button>
+              <ion-button color="secondary" class="ion-margin-top" *ngIf="!profileFormLocked" (click)="setProfileFormToModify()">Cancelar</ion-button>
+            </div>
+
+          </form>
+
+        </ion-list>
+
+
+      </div>
+    </ion-slide>
+    
+    <ion-slide>
+      <h1>Slide 2</h1>
+    </ion-slide>
+    
+    <ion-slide>
+      <h1>Slide 3</h1>
+    </ion-slide>
+    
+    <ion-slide>
+      <h1>Slide 4</h1>
+    </ion-slide>
+  
+  </ion-slides>
+
+  
+
+</ion-content>
