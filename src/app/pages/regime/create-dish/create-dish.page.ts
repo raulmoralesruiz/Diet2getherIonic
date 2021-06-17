@@ -26,7 +26,7 @@ export class CreateDishPage implements OnInit {
   createDishForm = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    categories: new FormControl('', Validators.required),
+    categories: new FormControl(''),
   });
 
   loading: HTMLIonLoadingElement;

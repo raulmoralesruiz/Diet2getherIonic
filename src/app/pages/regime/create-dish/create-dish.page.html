@@ -42,7 +42,7 @@
 
         </form>
       
-        <ion-button expand="block" shape="round" (click)="createDish()">Enviar</ion-button>
+        <ion-button expand="block" shape="round" (click)="createDish()" [disabled]="!createDishForm.valid">Enviar</ion-button>
         <ion-button class="ion-margin-top" (click)="exitModal()" fill="clear" expand="block">Volver</ion-button>
         
       </ion-card-content>

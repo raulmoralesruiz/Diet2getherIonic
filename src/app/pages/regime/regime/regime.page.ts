@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonSegment, IonSlides, ModalController } from '@ionic/angular';
+import { IonSegment, IonSlides, LoadingController, ModalController } from '@ionic/angular';
 import Swal from 'sweetalert2';
 import { LogInService } from '../../entry/services/log-in.service';
 import { DayRegimeInterface } from '../models/dayRegime.interface';
@@ -55,6 +55,8 @@ export class RegimePage implements OnInit {
 
   idSelectedMeal;
 
+  loading: HTMLIonLoadingElement;
+
   /**
    * FORMULARIO REACTIVO CON EL PLATO PARA AÑADIRLO A LA DIETA
    */
@@ -68,6 +70,7 @@ export class RegimePage implements OnInit {
     private regimeService: RegimeService,
     private login: LogInService,
     private modalController: ModalController,
+    public loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -253,26 +256,14 @@ export class RegimePage implements OnInit {
 
   /* Método que crea la estructura de la dieta */
   createRegimeStructure() {
-    /* Mostrar aviso - cargando */
-    Swal.fire({
-      title: 'Espere',
-      text: 'Se está creando la dieta',
-      icon: 'info',
-      allowOutsideClick: false,
-    });
-    Swal.showLoading();
+
+    this.showLoading();
     
     this.regimeService.createRegimeStructure().subscribe((response) => {
       /* Se refresca la lista de dias (estructura de la dieta) */
       this.getDayRegime();
 
-      /* Se muestra aviso */
-      Swal.fire({
-        title: 'Dieta creada',
-        text: 'Datos registrados correctamente.',
-        icon: 'success',
-        input: undefined,
-      });
+      this.loading.dismiss();
     });
   }
 
@@ -402,6 +393,12 @@ export class RegimePage implements OnInit {
     const {data} = await modal.onWillDismiss();
     
     console.log(data);
+
+    /* obtener los platos del atleta */
+    this.getDishes();
+
+    /* obtener los días (dieta) del atleta */
+    this.getDayRegime();
   }
 
   async showModalCreateDish() {
@@ -418,6 +415,12 @@ export class RegimePage implements OnInit {
     const {data} = await modal.onWillDismiss();
     
     console.log(data);
+
+    /* obtener los platos del atleta */
+    this.getDishes();
+
+    /* obtener los días (dieta) del atleta */
+    this.getDayRegime();
   }
 
 
@@ -439,6 +442,18 @@ export class RegimePage implements OnInit {
     }, 1000);
 
     // event.target.complete();
+  }
+
+  showLoading() {
+    this.presentLoading();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+    });
+    await this.loading.present();
   }
 
 }

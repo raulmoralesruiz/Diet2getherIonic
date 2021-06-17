@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalController, IonSlides, IonSegment } from '@ionic/angular';
+import { ModalController, IonSlides, IonSegment, IonInfiniteScroll, AlertController, LoadingController } from '@ionic/angular';
 import { LogInService } from '../../entry/services/log-in.service';
 import { PrivateService } from '../services/private.service';
 import { AddRegisterPrvPage } from '../add-register-prv/add-register-prv.page';
@@ -14,6 +14,7 @@ import { AddRegisterPrvPage } from '../add-register-prv/add-register-prv.page';
 export class ViewPrivatePage implements OnInit {
   @ViewChild(IonSlides) slides: IonSlides;
   @ViewChild(IonSegment) segment: IonSegment;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll; 
   
   /* Variable que almacena la pestaña activa: estado, registros o diario */
   activeMenuTab: string;
@@ -33,6 +34,9 @@ export class ViewPrivatePage implements OnInit {
   /* Variable que almacena los registros del modo clásico */
   registersClassicMode: any = [];
 
+  /* Variable que almacena los registros del modo progresivo */
+  registersProgressiveMode: any = [];
+
   isRegisterActive: boolean = true;
 
   nextRegisterDate: any;
@@ -41,8 +45,16 @@ export class ViewPrivatePage implements OnInit {
 
   actualPage: number = 1;
 
-  /* Variable que almacena los registros del modo progresivo */
-  registersProgressiveMode: any = [];
+  actualSlide: number;
+
+  paginationLimit: number = 2;
+  dataToScrollProgressive = [];
+  lastScrollIndexProgressive: number = 0;
+  dataToScrollClassic = [];
+  lastScrollIndexClassic: number = 0;
+
+  loading: HTMLIonLoadingElement;
+
 
   /* Variable que almacena el formulario para añadir un registro */
   addRegisterForm = new FormGroup({
@@ -66,7 +78,9 @@ export class ViewPrivatePage implements OnInit {
     private privateService: PrivateService,
     private router: Router,
     private login: LogInService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController: AlertController,
+    public loadingController: LoadingController
   ) {}
 
   ngOnInit() {
@@ -97,23 +111,29 @@ export class ViewPrivatePage implements OnInit {
 
   changeSlide() {
     this.slides.getActiveIndex().then(index => {
-      console.log(index);
+      this.actualSlide = index;
+
+      /* Ocultar pestaña diario al hacer slide, si el modo de registros es clásico */
+      if (index == 1 && this.registerMode == 'CLASSIC' && this.activeMenuTab == 'estado') {
+        index = 2;
+      }
+
+      /* Ocultar pestaña diario al hacer slide, si el modo de registros es clásico */
+      if (index == 1 && this.registerMode == 'CLASSIC' && this.activeMenuTab == 'registros') {
+        index = 0;
+      }
 
       if (index == 0) {
-        // this.activeMenuTab = 'estado'
         this.changeMenuTab('estado');
         this.segment.value = 'estado'
       }
 
-      
       if (index == 1) {
-        // this.activeMenuTab = 'diario'
         this.changeMenuTab('diario');
         this.segment.value = 'diario'
       }
 
       if (index == 2) {
-        // this.activeMenuTab = 'registros'
         this.changeMenuTab('registros');
         this.segment.value = 'registros'
       }
@@ -124,7 +144,6 @@ export class ViewPrivatePage implements OnInit {
     this.login.isUserInSession();
     this.privateService.getProgressBar().subscribe((response) => {
       this.progressBar = response;
-      console.log(response);
     });
   }
 
@@ -162,6 +181,8 @@ export class ViewPrivatePage implements OnInit {
 
       this.calculateWeightDifference(this.registersClassicMode);
       
+      /* Obtener los 5 primeros registros paginados */
+      this.getFirstScrollIndexes();
     });
   }
 
@@ -225,8 +246,31 @@ export class ViewPrivatePage implements OnInit {
     }
   }
 
-  getOutActivity() {
-    console.log("pendiente getOutActivity");
+  async getOutActivity() {
+    const alert = await this.alertController.create({
+      cssClass: 'alert-danger',
+      header: '¡Estás a punto de salir!',
+      message: 'Si sales de la actividad <strong>no podrás volver a ella</strong>. Tus puntos se sumarán al total de tu perfil.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        }, {
+          text: 'Abandonar',
+          handler: () => {
+            this.showLoading();
+
+            this.privateService.getOut().subscribe((response) => {
+              this.router.navigate(['/home']);
+
+              this.loading.dismiss();
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async showModal() {
@@ -244,11 +288,134 @@ export class ViewPrivatePage implements OnInit {
     // onDidDismiss actúa inmediatamente cuando se toca el botón
     const {data} = await modal.onWillDismiss();
     
-    console.log(data);
+    
     
     // Ejecutar después del modal
     this.getActivePrivateActivity();
     this.getAthleteRanking();
   }  
+
+  loadRegistersProgressiveMode() {
+
+    setTimeout(() => {
+      let auxLastIndex = this.lastScrollIndexProgressive;
+
+      if (this.dataToScrollProgressive.length >= this.registersProgressiveMode.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (
+        let i = this.lastScrollIndexProgressive;
+        i < this.lastScrollIndexProgressive + this.paginationLimit;
+        i++
+      ) {
+        let element = this.registersProgressiveMode[i];
+        if (element != undefined) {
+          this.dataToScrollProgressive.push(element);
+        }
+
+        auxLastIndex = i;
+      }
+
+      this.lastScrollIndexProgressive = auxLastIndex + 1;
+      
+      this.infiniteScroll.complete();
+    }, 1000);
+  }
+
+  // registersClassicMode
+  loadRegistersClassicMode() {
+
+    setTimeout(() => {
+      let auxLastIndex = this.lastScrollIndexClassic;
+
+      if (this.dataToScrollClassic.length >= this.registersClassicMode.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (
+        let i = this.lastScrollIndexClassic;
+        i < this.lastScrollIndexClassic + this.paginationLimit;
+        i++
+      ) {
+        let element = this.registersClassicMode[i];
+        if (element != undefined) {
+          this.dataToScrollClassic.push(element);
+        }
+
+        auxLastIndex = i;
+      }
+
+      this.lastScrollIndexClassic = auxLastIndex + 1;
+      
+      this.infiniteScroll.complete();
+    }, 1000);
+  }
+
+  getFirstScrollIndexes() {
+    if (this.registersProgressiveMode.length != 0) {
+      console.log("progre");
+      console.log(this.registersProgressiveMode);
+
+      let auxLastIndexProgressive = this.lastScrollIndexProgressive;
   
+      if (this.dataToScrollProgressive.length >= this.registersProgressiveMode.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (let i = this.lastScrollIndexProgressive; i < (this.lastScrollIndexProgressive + this.paginationLimit); i++) {
+        let element = this.registersProgressiveMode[i];
+        if (element != undefined) {
+          this.dataToScrollProgressive.push(element);
+        }
+
+        auxLastIndexProgressive = i;
+      }
+      this.lastScrollIndexProgressive = auxLastIndexProgressive + 1;
+    }
+
+    if (this.registersClassicMode.length != 0) {
+      console.log("clasi");
+      console.log(this.registersClassicMode);
+
+      let auxLastIndexClassic = this.lastScrollIndexClassic;
+  
+      if (this.dataToScrollClassic.length >= this.registersClassicMode.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (let i = this.lastScrollIndexClassic; i < (this.lastScrollIndexClassic + this.paginationLimit); i++) {
+        let element = this.registersClassicMode[i];
+        if (element != undefined) {
+          this.dataToScrollClassic.push(element);
+        }
+
+        auxLastIndexClassic = i;
+      }
+      this.lastScrollIndexClassic = auxLastIndexClassic + 1;
+    }
+  }
+
+
+
+  showLoading() {
+    this.presentLoading();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+    });
+    await this.loading.present();
+  }
+
 }

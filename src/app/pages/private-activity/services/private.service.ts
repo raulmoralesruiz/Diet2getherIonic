@@ -133,5 +133,24 @@ export class PrivateService {
     /* Devolver grupo activo */
     return this.http.get(endpoint, httpOptions);
   }
+
+  getOut():Observable<any> {
+    /* Obtener token JWT del usuario actual */
+    const jwt = localStorage.getItem('dietJwtSession');
+
+    /* Obtener usuario de la sesión actual */
+    const username = localStorage.getItem('dietUsernameSession');
+
+    /* Dirección del servidor - petición */
+    const endpoint = this.endPointServer + '/private-activity/get-out/' + username;
+
+    /* Cabecera necesaria para indicar token JWT */
+    let httpOptions = {
+      headers: new HttpHeaders({ Authorization: `Bearer ${jwt}` }),
+    };
+
+    /* Crear registro de atleta */
+    return this.http.post(endpoint, "getOut", httpOptions);
+  }
   
 }
