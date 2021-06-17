@@ -26,6 +26,10 @@
 
 <ion-content class="">
 
+  <ion-refresher *ngIf="actualSlide != 0" slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-slides (ionSlideDidChange)="changeSlide()">
 
     <ion-slide>
@@ -56,8 +60,8 @@
             </ion-item>
             <ion-item *ngIf="athleteRanking" class="ion-text-center">
               <ion-label>
-                <!-- Arreglar decimales en backend -->
-                {{athleteRanking.gamePoints | number: "1.0-0"}} puntos
+                <!-- Arreglar decimales en backend. pipe como solución temporal -->
+                <ion-badge color="primary">{{athleteRanking.gamePoints | number: "1.0-0"}}</ion-badge> puntos
               </ion-label>
             </ion-item>
           </ion-card-content>
@@ -66,24 +70,57 @@
 
         <div *ngIf="actualPrivateActivity" class="ion-text-center ion-padding">
 
-          <div *ngIf="actualPrivateActivity.privateActivityMode == 'LOSE'" class="ion-text-center">
+          <ion-card *ngIf="actualPrivateActivity.privateActivityMode == 'LOSE'">
+            <ion-card-header class="infoBoxBg">
+              <ion-card-title class="titlesColor">{{actualPrivateActivity.privateActivityMode | titlecase}}</ion-card-title>
+              <ion-card-subtitle class="titlesColor">Modo de actividad privada</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>Este modo servirá para motivarte a adelgazar y estar en tu peso ideal.</p>
+              <p>Los puntos incrementarán cuando bajes peso.</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- <div *ngIf="actualPrivateActivity.privateActivityMode == 'LOSE'" class="ion-text-center">
             <h1>{{actualPrivateActivity.privateActivityMode | titlecase}}</h1>
             <div class="w-75 mx-auto">
               <p>Este modo servirá para motivarte a adelgazar y estar en tu peso ideal.</p>
               <p>Los puntos incrementarán cuando bajes peso.</p>
             </div>
-          </div>
+          </div> -->
 
-          <div *ngIf="actualPrivateActivity.privateActivityMode == 'GAIN'" class="ion-text-center">
+          <ion-card *ngIf="actualPrivateActivity.privateActivityMode == 'GAIN'">
+            <ion-card-header class="infoBoxBg">
+              <ion-card-title class="titlesColor">{{actualPrivateActivity.privateActivityMode | titlecase}}</ion-card-title>
+              <ion-card-subtitle class="titlesColor">Modo de actividad privada</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>Este modo servirá para motivarte a engordar y estar en tu peso ideal.</p>
+              <p>Los puntos incrementarán cuando subas de peso.</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- <div *ngIf="actualPrivateActivity.privateActivityMode == 'GAIN'" class="ion-text-center">
             <h1>{{actualPrivateActivity.privateActivityMode | titlecase}}</h1>
             <div class="w-75 mx-auto">
               <p>Este modo servirá para motivarte a engordar y estar en tu peso ideal.</p>
               <p>Los puntos incrementarán cuando subas de peso.</p>
             </div>
-          </div>
+          </div> -->
 
+          <ion-card *ngIf="actualPrivateActivity.registerMode == 'PROGRESSIVE'">
+            <ion-card-header class="infoBoxBg">
+              <ion-card-title class="titlesColor">{{actualPrivateActivity.registerMode | titlecase}}</ion-card-title>
+              <ion-card-subtitle class="titlesColor">Modo de registro</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>Este es un modo nuevo, más preciso, para registrar tus pesos.</p>
+              <p>Registra tu peso una vez al día y espera a ver los resultados calculados automáticamente por nuestra 
+                web tras cada semana.</p>
+            </ion-card-content>
+          </ion-card>
 
-          <div *ngIf="actualPrivateActivity.registerMode == 'PROGRESSIVE'" class="ion-text-center">
+          <!-- <div *ngIf="actualPrivateActivity.registerMode == 'PROGRESSIVE'" class="ion-text-center">
             <h1>{{actualPrivateActivity.registerMode | titlecase}}</h1>
 
             <div class="w-75 mx-auto">
@@ -92,16 +129,27 @@
                 web
                 tras cada semana.</p>
             </div>
-          </div>
+          </div> -->
 
-          <div *ngIf="actualPrivateActivity.registerMode == 'CLASSIC'" class="container text-center">
+          <ion-card *ngIf="actualPrivateActivity.registerMode == 'CLASSIC'">
+            <ion-card-header class="infoBoxBg">
+              <ion-card-title class="titlesColor">{{actualPrivateActivity.registerMode | titlecase}}</ion-card-title>
+              <ion-card-subtitle class="titlesColor">Modo de registro</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>El modo clásico para registrar tus pesos en Diet2Gether.</p>
+              <p>En este modo se registra un peso cada semana, es una experiencia más relajada.</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- <div *ngIf="actualPrivateActivity.registerMode == 'CLASSIC'" class="container text-center">
             <h1>{{actualPrivateActivity.registerMode | titlecase}}</h1>
 
             <div class="w-75 mx-auto">
               <p>El modo clasico para registrar tus pesos en Diet2Gether.</p>
               <p>En este modo se registra un peso cada semana, es una experiencia más relajada.</p>
             </div>
-          </div>
+          </div> -->
 
         </div>
 

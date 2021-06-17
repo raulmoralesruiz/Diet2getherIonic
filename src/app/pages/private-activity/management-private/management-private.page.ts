@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PickerController } from '@ionic/angular';
+import { LoadingController, PickerController } from '@ionic/angular';
 import Swal from 'sweetalert2';
 import { LogInService } from '../../entry/services/log-in.service';
 import { PrivateActivityInterface } from '../models/private-activity.interface';
@@ -32,12 +32,15 @@ export class ManagementPrivatePage implements OnInit {
     backdropDismiss: false,
   };
 
+  loading: HTMLIonLoadingElement;
+
   constructor(
     private route: Router,
     private build: FormBuilder,
     private login: LogInService,
     private privateService: PrivateService,
-    private pickerController: PickerController
+    private pickerController: PickerController,
+    public loadingController: LoadingController
   ) {}
 
   ngOnInit() {
@@ -80,13 +83,7 @@ export class ManagementPrivatePage implements OnInit {
   createPrivateActivity() {
 
     // Se muestra el aviso de carga
-    Swal.fire({
-      title: 'Espere',
-      text: 'Se estan guardando sus datos',
-      icon: 'info',
-      allowOutsideClick: false,
-    });
-    Swal.showLoading();
+    this.showLoading();
 
     // Se recoge la información del formulario
     let backendForm: PrivateActivityInterface = {
@@ -99,12 +96,8 @@ export class ManagementPrivatePage implements OnInit {
     // Se envía la información al backend, a través del servicio
     this.privateService.createPrivateActivity(backendForm).subscribe(
       (group) => {
-        Swal.fire({
-          title: `Actividad creada`,
-          text: 'Registro realizado correctamente.',
-          icon: 'success',
-          input: undefined,
-        });
+        // Se elimina el aviso de carga
+        this.loading.dismiss();
 
         this.privateForm.reset();
 
@@ -208,6 +201,18 @@ export class ManagementPrivatePage implements OnInit {
   /* Método que une los kilos y gramos en la variable peso */
   joinWeight(kilos:number, grams:number) {
     this.goalWeight = parseFloat(kilos + '.' + grams);
+  }
+
+  showLoading() {
+    this.presentLoading();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+    });
+    await this.loading.present();
   }
 
 }
