@@ -1,3 +1,5 @@
+@import "src/global.scss";
+
 .cardTextSize {
     p {
         font-size: 18px;
@@ -14,4 +16,16 @@ ion-slides {
 
 .slide {
     height: 100%;
+}
+
+ion-icon, ion-badge {
+    vertical-align: middle;
+}
+
+.infoBoxBg {
+    background-color: $dietInfoBoxBackground;
+}
+
+.titlesColor{
+    --color: white;
 }

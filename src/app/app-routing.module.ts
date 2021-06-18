@@ -42,6 +42,10 @@ const routes: Routes = [
   {
     path:'private',
     loadChildren: () => import("./pages/private-activity/private.module").then(m => m.PrivateModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/my-profile/my-profile.module').then( m => m.MyProfilePageModule)
   }
 ];
 

@@ -11,6 +11,7 @@ import { urlServerProd } from 'src/environments/environment.prod';
 
 import { UserSignUpDto } from '../models/signup-user-dto';
 import { GroupService } from '../../group/services/group.service';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,8 @@ export class LogInService {
   constructor(
     private http: HttpClient,
     private route: Router,
-    private groupService: GroupService
+    private groupService: GroupService,
+    public toastController: ToastController
   ) 
   {
     if (!environment.production) {
@@ -114,10 +116,7 @@ export class LogInService {
                   },
                   confirmButtonText: 'Ok',
                 }).then((result) => {
-                  Toast.fire({
-                    icon: 'success',
-                    title: 'Bienvenid@ ' + user.username,
-                  });
+                  this.presentToast(user.username);
                 });
               }, 10);
             }
@@ -132,8 +131,6 @@ export class LogInService {
         });
       }
     );
-
-    //return this.http.post(endpoint, user,{responseType:'text'});
   }
 
   logout(): void {
@@ -186,5 +183,21 @@ export class LogInService {
     }
 
     return true;
+  }
+
+  async presentToast(username: string) {
+    const toast = await this.toastController.create({
+      duration: 5000,
+      message: 'Bienvenid@ ' + username,
+      position: 'middle',
+      color: 'primary',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel',
+        },
+      ],
+    });
+    await toast.present();
   }
 }

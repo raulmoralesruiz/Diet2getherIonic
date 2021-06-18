@@ -45,9 +45,9 @@ export class ViewPrivatePage implements OnInit {
 
   actualPage: number = 1;
 
-  actualSlide: number;
+  actualSlide: number = 0;
 
-  paginationLimit: number = 2;
+  paginationLimit: number = 4;
   dataToScrollProgressive = [];
   lastScrollIndexProgressive: number = 0;
   dataToScrollClassic = [];
@@ -107,6 +107,14 @@ export class ViewPrivatePage implements OnInit {
     if (toChange == 'registros') {
       this.slides.slideTo(2);
     }
+  }
+
+  segmentChanged() {
+    let toChange = this.segment.value;
+
+    if (toChange == 'estado') this.slides.slideTo(0);
+    if (toChange == 'diario') this.slides.slideTo(1);
+    if (toChange == 'registros') this.slides.slideTo(2);
   }
 
   changeSlide() {
@@ -358,8 +366,6 @@ export class ViewPrivatePage implements OnInit {
 
   getFirstScrollIndexes() {
     if (this.registersProgressiveMode.length != 0) {
-      console.log("progre");
-      console.log(this.registersProgressiveMode);
 
       let auxLastIndexProgressive = this.lastScrollIndexProgressive;
   
@@ -381,8 +387,6 @@ export class ViewPrivatePage implements OnInit {
     }
 
     if (this.registersClassicMode.length != 0) {
-      console.log("clasi");
-      console.log(this.registersClassicMode);
 
       let auxLastIndexClassic = this.lastScrollIndexClassic;
   
@@ -404,8 +408,6 @@ export class ViewPrivatePage implements OnInit {
     }
   }
 
-
-
   showLoading() {
     this.presentLoading();
   }
@@ -416,6 +418,18 @@ export class ViewPrivatePage implements OnInit {
       message: 'Cargando...',
     });
     await this.loading.present();
+  }
+
+  doRefresh(event) {
+    this.getProgressBar();
+    this.getActivePrivateActivity();
+    this.getAthleteRanking();
+    
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+
+    // event.target.complete();
   }
 
 }

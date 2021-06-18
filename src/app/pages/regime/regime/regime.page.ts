@@ -116,6 +116,13 @@ export class RegimePage implements OnInit {
     });
   }
 
+  segmentChanged() {
+    let toChange = this.segment.value;
+
+    if (toChange == 'regime') this.slides.slideTo(0);
+    if (toChange == 'dishes') this.slides.slideTo(1);
+  }
+
   /**
    * Funcion que resetea los valores del formulario en el modal de crear plato
    */

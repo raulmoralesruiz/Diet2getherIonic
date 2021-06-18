@@ -8,8 +8,8 @@
       </ion-buttons>
 
       <ion-buttons slot="end" *ngIf="online == true">
-        <ion-button (click)="logout()">
-          <ion-icon name="log-out-outline" class="logoutIcon" color="secondary"></ion-icon>
+        <ion-button [routerLink]="['/profile']">
+          <ion-icon name="person-circle-outline" class="logoutIcon" color="primary"></ion-icon>
         </ion-button>
       </ion-buttons>
 
@@ -38,7 +38,7 @@
           <ion-item *ngIf="online == false" [routerLink]="['/signup']">
             <ion-icon name="log-in-outline" color="primary"></ion-icon>Sign-up
           </ion-item>
-          <ion-item *ngIf="online == true" disabled>
+          <ion-item *ngIf="online == true" [routerLink]="['/profile']">
             <ion-icon name="person-circle-outline" color="primary"></ion-icon>Mi perfil
           </ion-item>
           <ion-item *ngIf="online == true" [routerLink]="['/social']">

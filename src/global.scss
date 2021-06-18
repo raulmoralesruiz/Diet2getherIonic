@@ -51,3 +51,11 @@ $dietInfoBoxLink:           #4D8593;
         color: black;
     }
 }
+
+ion-label:disabled {
+    color: red !important;
+}
+
+ion-input:disabled {
+    color: red !important;
+}
