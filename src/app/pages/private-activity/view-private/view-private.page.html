@@ -9,7 +9,7 @@
     <ion-title>Private</ion-title>
   </ion-toolbar>
 
-  <ion-segment value="estado" class="segment">
+  <ion-segment value="estado" class="segment" (ionChange)="segmentChanged()">
     <ion-segment-button value="estado" (click)="changeMenuTab('estado')">
       <ion-label>Estado</ion-label>
     </ion-segment-button>

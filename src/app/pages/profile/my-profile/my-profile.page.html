@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-segment value="personal" class="segment">
+<ion-segment value="personal" class="segment" (ionChange)="segmentChanged()">
   <ion-segment-button value="personal" (click)="changeMenuTab('personal')">
     <ion-label>Personal</ion-label>
   </ion-segment-button>
@@ -26,17 +26,17 @@
     <ion-slide class="">
 
       <div class="width100">
+        
+        <ion-chip color="primary" outline="true" class="ion-margin-top">
+          <ion-label>Datos personales</ion-label>
+        </ion-chip>
       
-        <ion-list class="ion-text-center">
+        <ion-list>
 
-          <ion-chip color="primary" outline="true">
-            <ion-label>Datos personales</ion-label>
-          </ion-chip>
-
-          <form [formGroup]="profileForm" action="">
+          <form [formGroup]="profileForm">
 
             <ion-item>
-              <ion-label position="fixed">Nombre</ion-label>
+              <ion-label position="stacked">Nombre</ion-label>
               <ion-input [clearInput]="clearInput" [color]="textColor" formControlName="name"
                 [value]="athleteName | titlecase" [placeholder]="athleteName | titlecase" [readonly]="readOnly">
               </ion-input>
@@ -46,37 +46,37 @@
             </ion-text>
 
             <ion-item>
-              <ion-label position="fixed">Apellidos</ion-label>
+              <ion-label position="stacked">Apellidos</ion-label>
               <ion-input [clearInput]="clearInput" [color]="textColor" formControlName="surname"
-                [value]="athleteSurname | titlecase" [placeholder]="athleteSurname | titlecase" [readonly]="readOnly"
-                required></ion-input>
+                [value]="athleteSurname | titlecase" [placeholder]="athleteSurname | titlecase" [readonly]="readOnly">
+              </ion-input>
             </ion-item>
             <ion-text *ngIf="!profileFormLocked" color="danger" [hidden]="profileForm.get('surname').pristine || profileForm.get('surname').valid" class="ion-padding ion-text-center">
               Los apellidos son obligatorios
             </ion-text>
 
             <ion-item>
-              <ion-label position="fixed">Fecha nac.</ion-label>
+              <ion-label position="stacked">Fecha de nacimiento</ion-label>
               <ion-input *ngIf="profileFormLocked" [value]="athleteBirthday" readonly></ion-input>
               <ion-datetime *ngIf="!profileFormLocked" display-format="DD/MM/YYYY" min="1940-01-01" max="2021-12-31" formControlName="birthday"
-                name="birthday" required id="inpbirthday" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
+                name="birthday" id="inpbirthday" placeholder="Introduce fecha" [pickerOptions]="datePickerOptions">
               </ion-datetime>
             </ion-item>
 
             <ion-item>
-              <ion-label position="fixed">Altura</ion-label>
+              <ion-label position="stacked">Altura</ion-label>
               <ion-input [value]="athleteHeight" [readonly]="readOnly"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="fixed">Peso</ion-label>
+              <ion-label position="stacked">Peso</ion-label>
               <ion-input [clearInput]="clearInput" [value]="athleteWeight" readonly></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="fixed">Usuario</ion-label>
+              <ion-label position="stacked">Usuario</ion-label>
               <ion-input [value]="actualUser" readonly></ion-input>
             </ion-item>
 
-            <div class="ion-padding-top">
+            <div class="ion-padding">
               <ion-button color="primary" class="ion-margin-top" *ngIf="profileFormLocked" expand="block" (click)="setProfileFormToModify()">Modificar</ion-button>
               <ion-button color="primary" class="ion-margin-top" *ngIf="!profileFormLocked" (click)="sendProfileForm()">Enviar</ion-button>
               <ion-button color="secondary" class="ion-margin-top" *ngIf="!profileFormLocked" (click)="setProfileFormToModify()">Cancelar</ion-button>
@@ -91,15 +91,68 @@
     </ion-slide>
     
     <ion-slide>
-      <h1>Slide 2</h1>
+      
+      <div class="width100">
+        
+        <ion-chip color="primary" outline="true" class="ion-margin-top">
+          <ion-label>Datos IMC</ion-label>
+        </ion-chip>
+      
+        <ion-list>
+
+          <ion-item>
+            <ion-label position="stacked">IMC actual</ion-label>
+            <ion-input [value]="athleteIMC | number: '1.2-2'" readonly></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Baremo IMC actual</ion-label>
+            <ion-input [value]="athleteActualScale" readonly></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Puntos Diet2gether</ion-label>
+            <ion-input [value]="athleteTotalPoints + ' puntos'" readonly></ion-input>
+          </ion-item>
+
+        </ion-list>
+
+      </div>
+
     </ion-slide>
     
     <ion-slide>
-      <h1>Slide 3</h1>
+      
+      <div class="width100">
+        
+        <ion-chip color="primary" outline="true" class="ion-margin-top">
+          <ion-label>Baremos personales</ion-label>
+        </ion-chip>
+      
+        <ion-list *ngFor="let scale of athleteScales" class="ion-no-padding">
+
+          <ion-item>
+            <ion-label position="stacked">{{ scale.scale }}</ion-label>
+            <ion-input *ngIf="athleteActualScale != scale.scale" [value]="(scale.weightScale | number: '1.2-2') + ' kg'" readonly></ion-input>
+            
+            <ion-input *ngIf="athleteActualScale == scale.scale" color="primary" [value]="(scale.weightScale | number: '1.2-2') + ' kg'" readonly></ion-input>
+            <ion-icon *ngIf="athleteActualScale == scale.scale" color="primary" slot="end" name="trophy-outline"></ion-icon>
+          </ion-item>
+
+        </ion-list>
+
+      </div>
+
     </ion-slide>
     
     <ion-slide>
-      <h1>Slide 4</h1>
+      
+      <div class="width100">
+        
+        <ion-chip color="primary" outline="true" class="ion-margin-top">
+          <ion-label>Estadísticas</ion-label>
+        </ion-chip>
+
+      </div>
+
     </ion-slide>
   
   </ion-slides>

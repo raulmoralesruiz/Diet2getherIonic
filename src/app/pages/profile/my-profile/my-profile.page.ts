@@ -63,10 +63,9 @@ export class MyProfilePage implements OnInit {
   clearInput: boolean = false;
 
   profileForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    surname: new FormControl('', Validators.required),
-    birthday: new FormControl('', Validators.required),
-    // height: new FormControl({value: '', disabled: true}, Validators.required),
+    name: new FormControl('', ),
+    surname: new FormControl('', ),
+    birthday: new FormControl('', ),
   });
 
   /* Opciones del picker de fecha */
@@ -94,21 +93,10 @@ export class MyProfilePage implements OnInit {
   changeMenuTab(toChange: string) {
     this.activeMenuTab = toChange;
 
-    if (toChange == 'personal') {
-      this.slides.slideTo(0);
-    }
-
-    if (toChange == 'imc') {
-      this.slides.slideTo(1);
-    }
-
-    if (toChange == 'scales') {
-      this.slides.slideTo(2);
-    }
-
-    if (toChange == 'stats') {
-      this.slides.slideTo(3);
-    }
+    if (toChange == 'personal') this.slides.slideTo(0);
+    if (toChange == 'imc') this.slides.slideTo(1);
+    if (toChange == 'scales') this.slides.slideTo(2);
+    if (toChange == 'stats') this.slides.slideTo(3);
   }
 
   changeSlide() {
@@ -135,6 +123,15 @@ export class MyProfilePage implements OnInit {
         this.segment.value = 'stats';
       }
     });
+  }
+
+  segmentChanged() {
+    let toChange = this.segment.value;
+
+    if (toChange == 'personal') this.slides.slideTo(0);
+    if (toChange == 'imc') this.slides.slideTo(1);
+    if (toChange == 'scales') this.slides.slideTo(2);
+    if (toChange == 'stats') this.slides.slideTo(3);
   }
 
   /* Método que obtiene el atleta actual */

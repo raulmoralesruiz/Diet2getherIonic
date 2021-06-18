@@ -109,6 +109,14 @@ export class ViewPrivatePage implements OnInit {
     }
   }
 
+  segmentChanged() {
+    let toChange = this.segment.value;
+
+    if (toChange == 'estado') this.slides.slideTo(0);
+    if (toChange == 'diario') this.slides.slideTo(1);
+    if (toChange == 'registros') this.slides.slideTo(2);
+  }
+
   changeSlide() {
     this.slides.getActiveIndex().then(index => {
       this.actualSlide = index;

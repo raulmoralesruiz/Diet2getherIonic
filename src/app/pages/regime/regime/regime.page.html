@@ -3,7 +3,7 @@
     <ion-title>regime</ion-title>
   </ion-toolbar>
 
-  <ion-segment value="regime" class="segment">
+  <ion-segment value="regime" class="segment" (ionChange)="segmentChanged()">
     <ion-segment-button value="regime" (click)="changeMenuTab('regime')">
       <ion-label>Mi dieta</ion-label>
     </ion-segment-button>
