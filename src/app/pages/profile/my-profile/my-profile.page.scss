@@ -27,3 +27,13 @@ ion-icon {
 ion-datetime {
     --placeholder-color: #78c2ad;
 }
+
+// --------------------
+
+@media (prefers-color-scheme: dark) {
+
+    ion-segment-button {
+        color: black !important;
+    }
+
+}

@@ -12,10 +12,16 @@ const { SplashScreen, StatusBar }: PluginRegistry = Plugins;
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
   online: boolean = false;
   admin: boolean = false;
 
-  constructor(private route: Router, private login: LogInService) {}
+  darkMode: boolean = true;
+
+  constructor(private route: Router, private login: LogInService) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.darkMode = prefersDark.matches;
+  }
 
   ngOnInit(): void {
     this.initializeApp();
@@ -60,8 +66,22 @@ export class AppComponent {
   initializeApp() {
     SplashScreen.hide();
 
-    if (Capacitor.isPluginAvailable('StatusBar')) { 
+    if (Capacitor.isPluginAvailable('StatusBar')) {
       StatusBar.setBackgroundColor({ color: '#6aab98' });
-    };
+    }
+
+    this.changeDarkMode();
+  }
+
+  changeDarkMode() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    if (prefersDark.matches) {
+      document.body.classList.toggle('dark');
+    }
+  }
+
+  setDarkMode() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark');
   }
 }

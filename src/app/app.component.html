@@ -33,39 +33,44 @@
       <ion-menu-toggle>
         <ion-list>
           <ion-item *ngIf="online == false" [routerLink]="['/login']">
-            <ion-icon name="key-outline" color="primary"></ion-icon>Login
+            <ion-icon slot="start" name="key-outline" color="primary"></ion-icon>Login
           </ion-item>
           <ion-item *ngIf="online == false" [routerLink]="['/signup']">
-            <ion-icon name="log-in-outline" color="primary"></ion-icon>Sign-up
+            <ion-icon slot="start" name="log-in-outline" color="primary"></ion-icon>Sign-up
           </ion-item>
           <ion-item *ngIf="online == true" [routerLink]="['/profile']">
-            <ion-icon name="person-circle-outline" color="primary"></ion-icon>Mi perfil
+            <ion-icon slot="start" name="person-circle-outline" color="primary"></ion-icon>Mi perfil
           </ion-item>
           <ion-item *ngIf="online == true" [routerLink]="['/social']">
-            <ion-icon name="people-outline" color="primary"></ion-icon>Social
+            <ion-icon slot="start" name="people-outline" color="primary"></ion-icon>Social
           </ion-item>
           <ion-item *ngIf="online == true" [routerLink]="['/regime']">
-            <ion-icon name="restaurant-outline" color="primary"></ion-icon>Dieta
+            <ion-icon slot="start" name="restaurant-outline" color="primary"></ion-icon>Dieta
           </ion-item>
           
           <ion-item *ngIf="online == true">
-            <ion-icon name="body-outline" color="primary"></ion-icon>Actividades
+            <ion-icon slot="start" name="body-outline" color="primary"></ion-icon>Actividades
           </ion-item>
           
           <ion-item-divider>
-            <ion-item *ngIf="online == true" disabled [routerLink]="['/group']">
-              <ion-icon name="football-outline" color="primary"></ion-icon>Grupo
+            <ion-item *ngIf="online == true" [routerLink]="['/group']">
+              <ion-icon slot="start" name="football-outline" color="primary"></ion-icon>Grupo
             </ion-item>
             <ion-item *ngIf="online == true" [routerLink]="['/private']">
-              <ion-icon name="bicycle-outline" color="primary"></ion-icon>Privado
+              <ion-icon slot="start" name="bicycle-outline" color="primary"></ion-icon>Privado
             </ion-item>
           </ion-item-divider>
 
           <ion-item *ngIf="online == true" disabled>
-            <ion-icon name="create-outline" color="primary"></ion-icon>Surgerencias de mejora
+            <ion-icon slot="start" name="create-outline" color="primary"></ion-icon>Surgerencias de mejora
+          </ion-item>
+          <ion-item *ngIf="online == true">
+            <ion-icon slot="start" name="moon" color="primary"></ion-icon>
+            <ion-label>Modo oscuro</ion-label>
+            <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="setDarkMode()"></ion-toggle>
           </ion-item>
           <ion-item *ngIf="online == true" (click)="logout()">
-            <ion-icon name="log-out-outline" color="secondary"></ion-icon>Cerrar sesión
+            <ion-icon slot="start" name="log-out-outline" color="secondary"></ion-icon>Cerrar sesión
           </ion-item>
         </ion-list>
       </ion-menu-toggle>

@@ -66,4 +66,16 @@ export class HomePage implements OnInit {
       }
     });
   }
+
+  doRefresh(event) {
+    this.getActualUser();
+    this.getDateNow();
+    this.getRegimeDayOfWeek();
+    
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+
+    // event.target.complete();
+  }
 }

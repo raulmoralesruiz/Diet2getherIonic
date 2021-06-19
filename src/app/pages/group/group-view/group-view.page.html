@@ -1,0 +1,178 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Group</ion-title>
+  </ion-toolbar>
+
+  <ion-segment value="ranking" class="segment" (ionChange)="segmentChanged()">
+    <ion-segment-button value="ranking" (click)="changeMenuTab('ranking')">
+      <ion-label>Ranking</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="registros" (click)="changeMenuTab('registros')">
+      <ion-label>Registros</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="estadisticas" (click)="changeMenuTab('estadisticas')">
+      <ion-label>Estadísticas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher *ngIf="actualSlide != 0" slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides (ionSlideDidChange)="changeSlide()">
+
+    <ion-slide>
+      
+      <div class="ion-padding width100">
+
+        <h2>Tiempo restante: {{progressBar.daysLeft}} días</h2>
+
+        <!-- Barra de progreso -->
+        <div class="ion-margin-bottom ion-padding">
+          <ion-progress-bar [value]="progressBar.totalPercentage / 100" [buffer]="progressBar.totalPercentage / 100">
+          </ion-progress-bar>
+        </div>
+
+
+        <!-- GroupManager - Lista de registros por verificar -->
+        <div *ngIf="registersToVerify != null && registersToVerify.length > 0" class="ion-padding-bottom ion-margin-bottom">
+          <ion-chip color="primary" outline="true">
+            <ion-label>Verificar registros</ion-label>
+          </ion-chip>
+
+          <!-- <ion-list>
+            <ion-item color="primary">
+              <ion-label class="width25 ion-text-center" color="light">Atleta</ion-label>
+              <ion-label class="width25 ion-text-center" color="light">Fecha</ion-label>
+              <ion-label class="width25 ion-text-center" color="light">Diferencia</ion-label>
+              <ion-label class="width25 ion-text-center" color="light">Acciones</ion-label>
+            </ion-item>
+
+            <ion-item *ngFor="let register of registersToVerify; let i = index">
+              <ion-label class="width25 ion-text-center">{{ register.athlete }}</ion-label>
+              <ion-label class="width25 ion-text-center">{{ register.weightDate | date: "d/M" }}</ion-label>
+              <ion-label class="width25 ion-text-center">{{ register.weightDifference}}</ion-label>
+              <div class="width25 ion-text-center">
+                <ion-button shape="round" class="ion-text-center"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
+                <ion-button shape="round" class="ion-text-center"><ion-icon name="close-outline"></ion-icon></ion-button>
+                <ion-fab>
+                  <ion-fab-button>
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab>
+              </div>
+            </ion-item>
+          </ion-list> -->
+
+          <ion-card *ngFor="let register of registersToVerify; let i = index">
+            <ion-card-header color="primary">
+              <ion-card-title>{{register.athlete}}</ion-card-title>
+              <!-- <ion-card-subtitle>Verificar registro</ion-card-subtitle> -->
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label class="ion-text-center">Fecha</ion-label>
+                <ion-label class="ion-text-center">{{ register.weightDate | date: "d/M" }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label class="ion-text-center">Diferencia</ion-label>
+                <ion-label *ngIf="register.weightDifference > 0" class="ion-text-center" color="primary">
+                  {{ register.weightDifference * -1 }}
+                </ion-label>
+                <ion-label *ngIf="register.weightDifference < 0" class="ion-text-center" color="secondary">
+                  +{{ register.weightDifference * -1 }}
+                </ion-label>
+              </ion-item>
+              
+              <div class="ion-margin-top">
+                <ion-button color="secondary" shape="round" (click)="verifyRegister(register.id)">
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+                <ion-button color="primary" shape="round" (click)="declineRegister(register.id)">
+                  <ion-icon name="checkmark-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+        </div>
+
+
+        <!-- Mensaje para el BoostAthlete-->
+        <div *ngIf="isBoostAthlete == actualUserSession">
+          <ion-card>
+            <ion-card-header color="secondary">
+              <ion-card-title>Atención atleta</ion-card-title>
+              <ion-card-subtitle>Esta semana te ha invadido la grasa!</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="ion-margin-top">
+              <p>Desde Diet2gether te queremos dar un empujón para que te recuperes de la semana anterior.</p>
+              <p>Se ortogarán más puntos si igualas, o superas el siguiente reto:</p>
+              <!-- <ion-text color="secondary">Ejemplo: Perder 250 gramos</ion-text> -->
+              <ion-text color="secondary">Perder {{ actualGroup.boostDay.boostAthlete.weightChallenge }} gramos</ion-text>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+
+        <!-- Ranking - Lista con badges -->
+        <ion-chip color="primary" outline="true">
+          <ion-label>Ranking</ion-label>
+        </ion-chip>
+
+        <ion-list *ngFor="let athleteRanking of athletes; let i = index">
+
+          <ion-item>
+            <div class="cupOrNumber ion-text-center">
+              <ion-icon *ngIf="i == 0" color="warning" name="trophy"></ion-icon>
+              <ion-icon *ngIf="i == 1" color="medium" name="trophy"></ion-icon>
+              <ion-icon *ngIf="i == 2" color="bronce" name="trophy"></ion-icon>
+              <ion-label *ngIf="i > 2">{{i + 1}}</ion-label>
+            </div>
+
+            <ion-label *ngIf="athleteRanking.roles.includes('GROUP_MANAGER')" class="ion-text-center">
+              <ion-icon name="ribbon-outline" color="medium"></ion-icon> {{athleteRanking.name}} <ion-icon name="ribbon-outline" color="medium"></ion-icon>
+            </ion-label>
+
+            <ion-label *ngIf="athleteRanking.roles.includes('ADMIN')" class="ion-text-center">{{athleteRanking.name}}</ion-label>
+            
+            <ion-label *ngIf="athleteRanking.roles == 'USER' && isBoostAthlete == athleteRanking.username" class="ion-text-center">
+              <ion-icon name="flash-outline" color="medium"></ion-icon> {{athleteRanking.name}} <ion-icon name="flash-outline" color="medium"></ion-icon>
+            </ion-label>
+            <ion-label *ngIf="athleteRanking.roles == 'USER' && isBoostAthlete != athleteRanking.username" class="ion-text-center">
+              {{athleteRanking.name}}
+            </ion-label>
+
+            <div class="cupOrNumber ion-text-center">
+              <ion-badge color="primary">{{athleteRanking.point}}</ion-badge>
+            </div>
+
+          </ion-item>
+
+        </ion-list>
+
+        <div class="ion-padding-top">
+          <ion-text color="danger" (click)="getOutGroup()">
+            Abandonar actividad <ion-icon name="exit-outline"></ion-icon>
+          </ion-text>
+        </div>
+
+      </div>
+      
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Registros</h1>
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Estadísticas</h1>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

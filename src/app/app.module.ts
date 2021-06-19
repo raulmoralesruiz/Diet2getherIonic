@@ -11,12 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 // Internacionalizacion
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { FormsModule } from '@angular/forms';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent],
 })

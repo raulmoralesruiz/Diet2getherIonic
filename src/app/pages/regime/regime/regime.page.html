@@ -83,11 +83,11 @@
 
             <div *ngFor="let meal of daysRegime[i].meals, let m = index" class="ion-margin-top ion-margin-bottom">
 
-              <ion-chip *ngIf="meal.dish == null" color="primary">
+              <ion-chip outline="true" *ngIf="meal.dish == null" color="primary">
                 <ion-label>{{meal.meal}}</ion-label>
               </ion-chip>
 
-              <ion-chip *ngIf="meal.dish != null" color="primary" (click)="showModalSelectDish(meal.id)">
+              <ion-chip outline="true" *ngIf="meal.dish != null" color="primary" (click)="showModalSelectDish(meal.id)">
                 <ion-label>{{meal.meal}}</ion-label>
                 <ion-icon name="swap-horizontal-outline"></ion-icon>
               </ion-chip>

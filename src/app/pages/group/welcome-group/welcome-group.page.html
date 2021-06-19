@@ -1,0 +1,54 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Group</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card *ngIf="actualPrivateActivity == null" class="ion-text-center">
+    <ion-card-header color="primary">
+      <ion-card-title>¿Qué puedes hacer aquí?</ion-card-title>
+      <ion-card-subtitle>Actividad de grupo</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content class="ion-margin-start ion-margin-end ion-margin-top">
+      <p>Esta es una de las secciones principales en Diet2gether.</p>
+      <p>Podrás visualizar el grupo en el que estás con tus amigos y revisar las estadísticas.</p>
+      <p>En caso de que no estés en un grupo podrás crear el tuyo e invitar a tus amigos.</p>
+      <p>¡A qué esperas!</p>
+
+      <ion-button *ngIf="actualGroup != null" [routerLink]="['/group/groupview']" color="secondary"
+        class="ion-margin-top">Ir a tu actividad</ion-button>
+      <ion-button *ngIf="actualGroup == null" [routerLink]="['/group/management']" color="secondary"
+        class="ion-margin-top">Crear actividad privada</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card *ngIf="actualPrivateActivity != null" class="ion-text-center">
+    <ion-card-header color="primary">
+      <ion-card-title>Actividad de grupo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-margin-start ion-margin-end ion-margin-top">
+      <p>No es posible crear un grupo</p>
+      <p>Para crear un grupo, debes abandonar tu actividad privada</p>
+    </ion-card-content>
+  </ion-card>
+
+  
+  <ion-card class="ion-text-center">
+    <ion-card-header color="primary">
+      <ion-card-title>¿Cómo funciona?</ion-card-title>
+      <ion-card-subtitle>Actividad de grupo</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content class="ion-margin-start ion-margin-end ion-margin-top">
+      <p>Esta es una de las secciones principales en Diet2gether.</p>
+      <p>Podrás visualizar el grupo en el que estas con tus amigos y revisar las estadísticas.</p>
+      <p>En caso de que no estés en un grupo podrás crear el tuyo e invitar a tus amigos.</p>
+      <p>¡A qué esperas!</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -5,3 +5,13 @@
 .iconSize {
     font-size: 25px;
 }
+
+// --------------------
+
+@media (prefers-color-scheme: dark) {
+    
+    ion-card {
+        border: 1px solid #78c2ad !important;
+    }
+
+}
