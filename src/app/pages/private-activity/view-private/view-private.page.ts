@@ -301,7 +301,7 @@ export class ViewPrivatePage implements OnInit {
     // Ejecutar después del modal
     this.getActivePrivateActivity();
     this.getAthleteRanking();
-  }  
+  }
 
   loadRegistersProgressiveMode() {
 

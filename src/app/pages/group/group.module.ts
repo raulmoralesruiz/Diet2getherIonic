@@ -8,6 +8,7 @@ import { GroupViewPage } from './group-view/group-view.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
+import { AddRegisterGrpPage } from './add-register-grp/add-register-grp.page';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
     WelcomeGroupPage,
     GroupViewPage,
     ManagementGroupPage,
+    AddRegisterGrpPage
   ],
   imports: [
     CommonModule,

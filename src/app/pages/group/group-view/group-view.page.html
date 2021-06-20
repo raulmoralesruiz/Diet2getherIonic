@@ -1,5 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
     <ion-title>Group</ion-title>
   </ion-toolbar>
 
@@ -19,7 +25,7 @@
 
 <ion-content>
 
-  <ion-refresher *ngIf="actualSlide != 0" slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="actualSlide == 1" slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
@@ -27,7 +33,7 @@
 
     <ion-slide>
       
-      <div class="ion-padding width100">
+      <div *ngIf="activeMenuTab == 'ranking'" class="ion-padding width100">
 
         <h2>Tiempo restante: {{progressBar.daysLeft}} días</h2>
 
@@ -43,30 +49,6 @@
           <ion-chip color="primary" outline="true">
             <ion-label>Verificar registros</ion-label>
           </ion-chip>
-
-          <!-- <ion-list>
-            <ion-item color="primary">
-              <ion-label class="width25 ion-text-center" color="light">Atleta</ion-label>
-              <ion-label class="width25 ion-text-center" color="light">Fecha</ion-label>
-              <ion-label class="width25 ion-text-center" color="light">Diferencia</ion-label>
-              <ion-label class="width25 ion-text-center" color="light">Acciones</ion-label>
-            </ion-item>
-
-            <ion-item *ngFor="let register of registersToVerify; let i = index">
-              <ion-label class="width25 ion-text-center">{{ register.athlete }}</ion-label>
-              <ion-label class="width25 ion-text-center">{{ register.weightDate | date: "d/M" }}</ion-label>
-              <ion-label class="width25 ion-text-center">{{ register.weightDifference}}</ion-label>
-              <div class="width25 ion-text-center">
-                <ion-button shape="round" class="ion-text-center"><ion-icon name="checkmark-outline"></ion-icon></ion-button>
-                <ion-button shape="round" class="ion-text-center"><ion-icon name="close-outline"></ion-icon></ion-button>
-                <ion-fab>
-                  <ion-fab-button>
-                    <ion-icon name="add-circle-outline"></ion-icon>
-                  </ion-fab-button>
-                </ion-fab>
-              </div>
-            </ion-item>
-          </ion-list> -->
 
           <ion-card *ngFor="let register of registersToVerify; let i = index">
             <ion-card-header color="primary">
@@ -168,7 +150,7 @@
     <ion-slide>
 
       <!-- Div registros -->
-      <div class="ion-text-center ion-padding slide">
+      <div *ngIf="activeMenuTab == 'registros'" class="ion-text-center ion-padding slide">
 
         <ion-text>
           <h2>Mis registros <ion-icon *ngIf="isRegisterActive == true"
@@ -244,7 +226,11 @@
     </ion-slide>
 
     <ion-slide>
-      <h1>Estadísticas</h1>
+
+      <div *ngIf="activeMenuTab == 'estadisticas'">
+        <h1>Estadísticas</h1>
+      </div>
+
     </ion-slide>
 
   </ion-slides>

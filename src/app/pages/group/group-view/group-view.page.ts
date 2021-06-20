@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonInfiniteScroll, IonSegment, IonSlides, LoadingController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, IonSegment, IonSlides, LoadingController, ModalController } from '@ionic/angular';
 import { LogInService } from '../../entry/services/log-in.service';
 import { AthleteRankingInterface } from '../models/athlete-ranking.interface';
 import { GroupService } from '../services/group.service';
+import { AddRegisterGrpPage } from '../add-register-grp/add-register-grp.page';
 
 @Component({
   selector: 'app-group-view',
@@ -16,7 +17,7 @@ export class GroupViewPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll; 
   
   /* Variable que almacena la pestaña activa */
-  activeMenuTab: string;
+  activeMenuTab: string = "ranking";
 
   /* Variable que almacena la barra de progreso */
   progressBar: any = '';
@@ -57,7 +58,8 @@ export class GroupViewPage implements OnInit {
     private router: Router,
     private login: LogInService,
     private alertController: AlertController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private modalController: ModalController
   ) {
     this.actualGroup = 'hola';
     this.registers = 'holi';
@@ -135,6 +137,9 @@ export class GroupViewPage implements OnInit {
 
   getActualGroup() {
     this.login.isUserInSession();
+    
+    this.athletes = [];
+
     this.groupService.getActiveGroup().subscribe((response) => {
       this.actualGroup = response.actualGroup;
 
@@ -184,8 +189,6 @@ export class GroupViewPage implements OnInit {
         });
       });
     });
-
-    console.log(this.athletes);
   }
 
   getRegistersToVerify() {
@@ -410,6 +413,27 @@ export class GroupViewPage implements OnInit {
       }
       this.lastScrollIndex = auxLastIndexProgressive + 1;
     }
+  }
+
+  async showModal() {
+    const modal = await this.modalController.create({
+      component: AddRegisterGrpPage,
+    });
+
+    await modal.present();
+
+    // onDidDismiss actúa cuando la animación del modal termina, después de tocar el botón
+    // const {data} = await modal.onDidDismiss();
+
+    // onDidDismiss actúa inmediatamente cuando se toca el botón
+    const {data} = await modal.onWillDismiss();
+    
+    // Ejecutar después del modal
+    this.getActualGroup();
+    this.getRegisters();
+    this.getProgressBar();
+    this.getChartTotalRegisters();
+    this.getChartPoints();
   }
 
 }

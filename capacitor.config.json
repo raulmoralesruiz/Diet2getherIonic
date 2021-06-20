@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "Diet2getherIonic",
+  "appId": "com.diet2gether.app",
+  "appName": "Diet2gether",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
