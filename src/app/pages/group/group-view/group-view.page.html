@@ -166,7 +166,81 @@
     </ion-slide>
 
     <ion-slide>
-      <h1>Registros</h1>
+
+      <!-- Div registros -->
+      <div class="ion-text-center ion-padding slide">
+
+        <ion-text>
+          <h2>Mis registros <ion-icon *ngIf="isRegisterActive == true"
+              name="add-circle-outline" (click)="showModal()"></ion-icon>
+          </h2>
+        </ion-text>
+
+        <p *ngIf="isRegisterActive == false" class="mx-auto">
+          <i class="far fa-clock lead mt-2"></i>
+          Aún no puedes añadir otro registro.<br>
+          Puedes crearlo el día {{ nextRegisterDate | date:'d/M' }}.
+        </p>
+
+        <ion-text color="primary">
+          <h3 *ngIf="weightDifference > 0">
+            Has perdido {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+        <ion-text color="secondary">
+          <h3 *ngIf="weightDifference < 0">
+            Has ganado {{weightDifference | number: "1.2-2"}} kg desde el inicio
+          </h3>
+        </ion-text>
+
+        <ion-text>
+          <!-- <h3 *ngIf="dataToScrollProgressive.length == 0"> -->
+          <h3 *ngIf="registers.length == 0">
+            Aún no tienes registros en esta actividad <ion-icon name="time-outline"></ion-icon>
+          </h3>
+        </ion-text>
+
+        <!-- <div *ngFor="let register of dataToScrollProgressive, let i = index"> -->
+        <div *ngFor="let register of dataToScroll, let i = index">
+          <ion-card class="cardTextSize">
+            <ion-card-header color="primary">
+              <ion-card-title>{{register.weightDate | date:'fullDate'}}</ion-card-title>
+              <ion-card-subtitle>Registro clásico</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content class="ion-margin-top">
+
+              <ion-text>
+                <p>
+                  <ion-icon name="scale-outline"></ion-icon> Peso: {{register.weight}} kg
+                </p>
+              </ion-text>
+
+              <ion-text>
+                <p>
+                  <ion-icon name="calendar-outline"></ion-icon> Fecha: {{register.weightDate}}
+                </p>
+              </ion-text>
+
+              <!-- Modo PERDER peso -->
+              <ion-text *ngIf="register.weightDifference >= 0"
+                color="primary">
+                <p>
+                  <ion-icon name="thumbs-up-outline"></ion-icon> Has perdido: {{register.weightDifference}} kg
+                </p>
+              </ion-text>
+              <ion-text *ngIf="register.weightDifference < 0"
+                color="secondary">
+                <p>
+                  <ion-icon name="thumbs-down-outline"></ion-icon> Has ganado: {{register.weightDifference * -1}} kg
+                </p>
+              </ion-text>
+
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+      </div>
     </ion-slide>
 
     <ion-slide>
@@ -174,5 +248,12 @@
     </ion-slide>
 
   </ion-slides>
+
+  <ion-infinite-scroll *ngIf="actualSlide == 1" threshold="100px" (ionInfinite)="loadRegisters()">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando registros...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

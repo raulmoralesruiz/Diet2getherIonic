@@ -28,7 +28,7 @@ export class GroupViewPage implements OnInit {
   actualPage: number = 1;
   nextRegisterDate: any;
   isRegisterActive: boolean = true;
-  registers: any;
+  // registers: any;
   weightDifference: number;
   registersToVerify: any = [];
   userIsGroupAdmin: boolean;
@@ -44,6 +44,11 @@ export class GroupViewPage implements OnInit {
 
   /** Grafica para puntos del grupo */
   chartPointData : any[];
+
+  paginationLimit: number = 4;
+  dataToScroll = [];
+  lastScrollIndex: number = 0;
+  registers: any = [];
 
   loading: HTMLIonLoadingElement;
 
@@ -214,6 +219,9 @@ export class GroupViewPage implements OnInit {
         for (const r of this.registers) {
           this.weightDifference += r.weightDifference;
         }
+
+      /* Obtener los rimeros registros paginados */
+      this.getFirstScrollIndexes();
       },
       (error) => {}
     );
@@ -347,6 +355,61 @@ export class GroupViewPage implements OnInit {
       message: 'Cargando...',
     });
     await this.loading.present();
+  }
+
+
+
+  loadRegisters() {
+
+    setTimeout(() => {
+      let auxLastIndex = this.lastScrollIndex;
+
+      if (this.dataToScroll.length >= this.registers.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (
+        let i = this.lastScrollIndex;
+        i < this.lastScrollIndex + this.paginationLimit;
+        i++
+      ) {
+        let element = this.registers[i];
+        if (element != undefined) {
+          this.dataToScroll.push(element);
+        }
+
+        auxLastIndex = i;
+      }
+
+      this.lastScrollIndex = auxLastIndex + 1;
+      
+      this.infiniteScroll.complete();
+    }, 1000);
+  }
+
+  getFirstScrollIndexes() {
+    if (this.registers.length != 0) {
+
+      let auxLastIndexProgressive = this.lastScrollIndex;
+  
+      if (this.dataToScroll.length >= this.registers.length) {
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+
+      for (let i = this.lastScrollIndex; i < (this.lastScrollIndex + this.paginationLimit); i++) {
+        let element = this.registers[i];
+        if (element != undefined) {
+          this.dataToScroll.push(element);
+        }
+
+        auxLastIndexProgressive = i;
+      }
+      this.lastScrollIndex = auxLastIndexProgressive + 1;
+    }
   }
 
 }
