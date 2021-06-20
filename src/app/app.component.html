@@ -67,7 +67,7 @@
           <ion-item *ngIf="online == true">
             <ion-icon slot="start" name="moon" color="primary"></ion-icon>
             <ion-label>Modo oscuro</ion-label>
-            <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="setDarkMode()"></ion-toggle>
+            <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="setDarkMode($event)"></ion-toggle>
           </ion-item>
           <ion-item *ngIf="online == true" (click)="logout()">
             <ion-icon slot="start" name="log-out-outline" color="secondary"></ion-icon>Cerrar sesión
