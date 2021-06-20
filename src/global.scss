@@ -59,3 +59,31 @@ ion-label:disabled {
 ion-input:disabled {
     color: red !important;
 }
+
+
+
+
+body.dark {
+
+    ion-card {
+        border: 1px solid gray !important;
+    }
+
+    .titlesColor{
+        --color: black;
+    }
+
+    .fondo {
+        background-color: $dietBannerBackground;
+        color: black;
+    }
+
+    ion-segment-button {
+        color: black !important;
+    }
+
+    ion-list.listGroup {
+        border: 1px solid #404040 !important;
+    }
+    
+}

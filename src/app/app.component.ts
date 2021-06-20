@@ -80,19 +80,17 @@ export class AppComponent {
     }
   }
 
-  // setDarkMode() {
-  //   console.log(this.darkMode);
-  //   this.darkMode = !this.darkMode;
-  //   document.body.classList.toggle('dark');
-  //   console.log(this.darkMode);
-  // }
-
-  setDarkMode(event) {
-    if (event.detail.checked) {
-      document.body.setAttribute('color-theme', 'dark');
-    } else {
-      document.body.setAttribute('color-theme', 'light');
-    }
+  setDarkMode() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark');
   }
+
+  // setDarkMode(event) {
+  //   if (event.detail.checked) {
+  //     document.body.setAttribute('color-theme', 'dark');
+  //   } else {
+  //     document.body.setAttribute('color-theme', 'light');
+  //   }
+  // }
   
 }

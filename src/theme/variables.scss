@@ -96,7 +96,7 @@
    * -------------------------------------------
    */
 
-  body[color-theme="dark"] {
+  body.dark {
     --ion-color-primary: #78c2ad;
     --ion-color-primary-rgb: 120, 194, 173;
     --ion-color-primary-contrast: #000000;
@@ -250,7 +250,7 @@
    * -------------------------------------------
    */
 
-  .ios body[color-theme="dark"] {
+  .ios body.dark {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0, 0, 0;
 
@@ -282,7 +282,7 @@
     --ion-card-background: #1c1c1d;
   }
 
-  .ios ion-modal {
+  .ios body.dark ion-modal {
     --ion-background-color: var(--ion-color-step-100);
     --ion-toolbar-background: var(--ion-color-step-150);
     --ion-toolbar-border-color: var(--ion-color-step-250);
@@ -294,7 +294,7 @@
    * -------------------------------------------
    */
 
-  .md body[color-theme="dark"] {
+  .md body.dark {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18, 18, 18;
 
